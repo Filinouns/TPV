@@ -3,6 +3,7 @@
 #include "checkML.h"
 #include <iostream>
 #include "Game.h"
+#include <Windows.h>
 
 using namespace std;
 
@@ -47,14 +48,10 @@ void Game::initObjects() {
 
 void Game::run() {
 	while (!exit && !win) {
-		
 		handleEvents();
-		frameTime = SDL_GetTicks() - startTime;
-		if (frameTime >= FRAME_RATE) {
-			update();
-			startTime = SDL_GetTicks();
-		}
+		update();
 		render();
+		Sleep(FRAME_RATE);
 	}
 }
 
@@ -139,25 +136,23 @@ bool Game::collides(const SDL_Rect& rect, const Vector2D& vel, Vector2D& collVec
 		pierdeVida();
 	}
 
-
 	//Colisiones con muros
-	if (rect.y < WALL_WIDTH + 12) {//bola entra en el espacio del mapa(comprobar posicion del mapa en la pantalla) 
+	if (rect.y - WALL_WIDTH < 5) {//Muro de arriba
 		c = true;
-		collVector = { 0,-1 };
+		collVector = { 0, -1 };
 	}
-	else if (rect.y > WIN_HEIGHT - 20) { //game over
+	else if (rect.y > WIN_HEIGHT - 20) { //game over (Parte inferior)
 		c = true;
 		pierdeVida();
 	}
-	else if (rect.x + rect.w > WIN_WIDTH - WALL_WIDTH) { 
+	else if ((rect.x + rect.w) - (WIN_WIDTH - WALL_WIDTH) < 5) { 
 		c = true;
 		collVector = { -1, 0 };
 	}
-	else if (rect.x < WALL_WIDTH + 10) {
+	else if (rect.x - WALL_WIDTH < 5) {
 		c = true;
 		collVector = { 1, 0 };
 	}
-
 
 	//Colisiones con Bloques
 	Block* block = nullptr;
@@ -196,7 +191,6 @@ Game::~Game() {
 	window = nullptr;
 
 	SDL_Quit();
-
 }
 
 void Game::deleteTextures() {
