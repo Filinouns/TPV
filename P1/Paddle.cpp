@@ -14,8 +14,8 @@ Paddle::Paddle(SDL_Renderer* r, Texture* text) {
 	destRect.x = x;
 	destRect.y = y;
 
-	//dirX = 1; // 1: se mueve en positivo		-1: se mueve en negativo
-	//dirY = 0; // 0: no se mueve
+	moveL = false;
+	moveR = false;
 }
 
 Paddle::~Paddle() {}
@@ -29,23 +29,27 @@ void Paddle::render() {
 }
 
 void Paddle::update() {
-	destRect.x = x;
+	destRect.x += speed;
+	x = destRect.x;
+	if (x < WALL_WIDTH + 5 || (x + w) > WIN_WIDTH - WALL_WIDTH - 10) speed = 0;
 }
 
 bool Paddle::collides(const SDL_Rect& r, Vector2D& collVector) {
+	float size = destRect.w/3;
 	bool hit = false;
-	if (r.x > this->getX() - this->getW() && r.x < this->getX() + this->getW()) {
-		if (r.y < this->getY() - this->getH() && r.y > this->getY() - 50) {
+	if (r.x >= destRect.x && r.x <= destRect.x + destRect.w) {
+		if (r.y > destRect.y - destRect.h && r.y < destRect.y) {
 			hit = true;
 			collVector = { 0, 1 };
-			/*if (r.x - this->getX() < - 10) { //Izq
-				collVector = { -1, 0 };
-			}
-			else if (r.x - this->getX() > 10) { //Der
-				collVector = { 1, 0 };
-			}
-			else { //Medio
-				collVector = { 0, 1 };
+			/*float precision = r.x - destRect.x;
+			if (precision <= destRect.w) {
+				if (precision > 2 * size) { //Lado der
+					collVector = { 1, 1 };
+				} else if (precision > size) { //Medio
+					collVector = { 0, 1 };
+				} else { //Lado izq
+					collVector = { -1, 1 };
+				}
 			}*/
 		}
 	}
@@ -56,18 +60,23 @@ void Paddle::handleEvents(SDL_Event event) {
 	switch (event.type) {
 	case SDL_KEYDOWN:
 		switch (event.key.keysym.sym) {
-		case SDLK_LEFT: //Para salir con esc
+		case SDLK_LEFT:
 			if (x > WALL_WIDTH) {
-				x -= PADDLE_MOVE;
+				speed = -3;
 			}
 			break;
 		case SDLK_RIGHT:
 			if (x < WIN_WIDTH - WALL_WIDTH - destRect.w) {
-				x += PADDLE_MOVE;
+				speed = 3;
 			}
 			break;
 		default:
 			break;
 		}
+		break;
+	case SDL_KEYUP:
+		case (SDLK_RIGHT || SDLK_LEFT):
+			speed = 0;
+			break;
 	}
 }

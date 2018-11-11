@@ -13,6 +13,7 @@ public:
 	Paddle() {};
 	Paddle(SDL_Renderer* r, Texture* text);
 	virtual ~Paddle();
+
 	int getX() { return x; }
 	int getY() { return y; }
 	int getW() { return w; }
@@ -21,7 +22,7 @@ public:
 	void update();
 	void render();
 	void handleEvents(SDL_Event event);
-	bool collides(const SDL_Rect& r, Vector2D& collVector);
+	bool collides(const SDL_Rect& r, Vector2D& collVector); //Comprobacion de choque con la pelota
 	//virtual void renderFrame() {}
 
 protected:
@@ -30,8 +31,8 @@ protected:
 	uint x = 0;
 	uint y = 0;
 
-	//int dirX = 0;
-	//int dirY = 0;
+	bool moveL, moveR;
+	int speed = 0;
 
 	SDL_Rect destRect;
 	Texture* texture = nullptr;

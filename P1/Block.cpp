@@ -14,8 +14,8 @@ Block::Block(SDL_Renderer* r, Texture * text, int c, int row, int col, float hei
 
 	pos = Vector2D(columna  * w + WALL_WIDTH, fila  * h + WALL_WIDTH);
 
-	destRect.x = pos.getX(); //Se pone al reves porque sino se escriben giradas, ya que queremos la fila(pos.X) para la posicion "y" del bloque en la escena
-	destRect.y = pos.getY(); //y la columna(pos.Y) para la posicion "x" del bloque en la escena.
+	destRect.x = pos.getX();
+	destRect.y = pos.getY();
 	destRect.h = h;
 	destRect.w = w;
 

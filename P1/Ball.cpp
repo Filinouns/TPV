@@ -7,7 +7,7 @@ Ball::Ball(SDL_Renderer* r, Texture* text, Game* g) {
 	texture = text;
 	game = g;
 
-	vel = Vector2D(10, -10);
+	vel = initVel;
 
 	h = BALL_SIZE;
 	w = BALL_SIZE;
@@ -30,15 +30,13 @@ void Ball::respawn() {
 	pos = Vector2D(((WIN_HEIGHT / 3) * 2), (WIN_WIDTH / 2));
 	destRect.x = pos.getX();
 	destRect.y = pos.getY();
-	vel = Vector2D(10, -10);
+	vel = initVel;
 }
 
 void Ball::update() {
 	//actualizar x e y (vel)4
 	Vector2D collVector;
 	Vector2D prevPos = pos;
-	Paddle * p = nullptr;
-
 	
 	if (game->collides(destRect, vel, collVector)) {
 		if (!resp) {
@@ -46,21 +44,12 @@ void Ball::update() {
 			pos = prevPos + vel;
 			destRect.x = pos.getX();
 			destRect.y = pos.getY();
-			if (vel.getX() > 10) {
-				vel.setX(10);
-			}
-			else if (vel.getX() < -10) {
-				vel.setX(-10);
-			}
-			if (vel.getY() > 10) {
-				vel.setY(10);
-			}
-			else if (vel.getY() < -10) {
-				vel.setY(-10);
-			}
-		}
-		else
-			resp = false;
+			//Controlador de velocidad
+			if (vel.getX() > 2)			vel.setX(2);
+			else if (vel.getX() < -2)	vel.setX(-2);
+			if (vel.getY() > 2)			vel.setY(2);
+			else if (vel.getY() < -2)	vel.setY(-2);
+		} else resp = false;
 	} else {
 		pos = prevPos + vel;
 		destRect.x = pos.getX();

@@ -27,9 +27,10 @@ private:
 	SDL_Rect destRect;
 
 	bool resp = false;
+
+	Vector2D initVel = Vector2D(2, -2);
 	
 	Vector2D pos = Vector2D(0, 0);
-	Vector2D vel = Vector2D(0, 0); // Esto lo unico que hace es actualizar el vector pos, sumandole o restandole. ¡NO HACE FALTA OTRO!
-	//Vector2D dir = Vector2D(0, 0);
+	Vector2D vel;
 	uint w, h;
 };

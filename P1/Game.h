@@ -9,10 +9,10 @@
 
 const uint NUM_TEXTURES = 6;
 const uint NUM_MAPS = 3;
-const uint FRAME_RATE = 60;
+const uint FRAME_RATE = 10;
 const uint WIN_WIDTH = 800;
 const uint WIN_HEIGHT = 600;
-const uint PADDLE_MOVE = 20;
+const uint PADDLE_MOVE = 5;
 const uint BALL_SIZE = 25;
 const string IMAGES_PATH = "../images/";
 
