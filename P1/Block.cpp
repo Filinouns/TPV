@@ -1,9 +1,6 @@
 #include "Block.h"
-#include "Wall.h"
 
-Block::Block(SDL_Renderer* r, Texture * text, int c, int row, int col, float height, float width) {
-	renderer = r;
-	textura = text;
+Block::Block(SDL_Renderer* r, Texture * text, int c, int row, int col, float height, float width) : ArkanoidObject (r, text) {
 	color = c;
 	fila = row;
 	columna = col;
@@ -48,6 +45,6 @@ Block::~Block(){}
 
 void Block::render() {
 	if (active) {
-		textura->renderFrame(destRect, vColor.getX(), vColor.getY());
+		texture->renderFrame(destRect, vColor.getX(), vColor.getY());
 	}
 }

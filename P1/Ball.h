@@ -15,8 +15,8 @@ public:
 	Ball(SDL_Renderer* r, Texture* text, Game* g);
 	virtual ~Ball();
 
-	void render();
-	void update();
+	virtual void render();
+	virtual void update();
 	void respawn();
 
 	SDL_Rect getRect() { return destRect; }

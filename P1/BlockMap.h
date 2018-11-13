@@ -1,18 +1,18 @@
 #pragma once
+#include "ArkanoidObject.h"
 #include "Block.h"
-#include "Texture.h"
 #include <iostream>
 #include <fstream>
 
 enum BlocksColor {Empty, Blue, Green, Red, Yellow, Black, Purple};
 
-class BlockMap {
+class BlockMap : public ArkanoidObject{
 public:
 	BlockMap(SDL_Renderer* r, Texture* text);
 	virtual ~BlockMap();
 
 	void load(const string& filename);
-	void render();
+	virtual void render();
 	int getNumBlocks() { return numBlocks; }
 	Block* collides(const SDL_Rect& ballRect, const Vector2D& ballVel, Vector2D& collVector);
 	Block* blockAt(const Vector2D& p);

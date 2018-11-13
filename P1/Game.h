@@ -1,22 +1,30 @@
 #pragma once
 #include "checkML.h"
 #include "Texture.h"
-#include "Paddle.h"
-#include "Wall.h"
-#include "Block.h"
-#include "Ball.h"
+#include "GameObject.h"
+
 #include "BlockMap.h"
+#include "Wall.h"
+#include "Paddle.h"
+#include "Ball.h"
 
 const uint NUM_TEXTURES = 6;
+const uint NUM_OBJECTS = 4;
 const uint NUM_MAPS = 3;
 const uint FRAME_RATE = 10;
 const uint WIN_WIDTH = 800;
 const uint WIN_HEIGHT = 600;
-const uint PADDLE_MOVE = 5;
-const uint BALL_SIZE = 25;
 const string IMAGES_PATH = "../images/";
 
+const uint WALL_WIDTH = 40;
+const uint PADDLE_MOVE = 5;
+const uint BALL_SIZE = 25;
 
+//Constantes de posiciones de los objetos
+const Vector2D POS_WALL_L_ROOF = Vector2D(0, 0);
+const Vector2D POS_WALL_R = Vector2D(WIN_WIDTH - WALL_WIDTH, 0);
+
+enum Objects_T {WallL, WallR, Roof, Map};
 enum Textures_T {TDog, TBrick, TPaddle, TBall, TSide, TTopSide};
 enum Maps_T {Lv1, Lv2, Lv3};
 
@@ -65,13 +73,13 @@ protected:
 	int vidas = 3;
 	int level = 1;
 	Texture* nTexturas[NUM_TEXTURES];
+	GameObject* Objects[NUM_OBJECTS];
 
 private:
 	Paddle* paddle = nullptr;
-	Wall* wallL = nullptr;
-	Wall* wallR = nullptr;
-	Wall* roof = nullptr;
-	Block* block = nullptr;
+	GameObject* wallL = nullptr;
+	GameObject* wallR = nullptr;
+	GameObject* roof = nullptr;
 	Ball* ball = nullptr;
-	BlockMap* mapita = nullptr;
+	GameObject* mapita = nullptr;
 };

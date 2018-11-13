@@ -37,13 +37,13 @@ void Game::initTextures() {
 
 void Game::initObjects() {
 	//Aqui los objetos del juego
+	Objects[WallL] = new Wall(renderer, nTexturas[TSide], POS_WALL_L_ROOF, false);
+	Objects[WallR] = new Wall(renderer, nTexturas[TSide], POS_WALL_R, false);
+	Objects[Roof] = new Wall(renderer, nTexturas[TTopSide], POS_WALL_L_ROOF, true);
+	Objects[Map] = new BlockMap(renderer, nTexturas[TBrick]);
 	paddle = new Paddle(renderer, nTexturas[TPaddle]);
-	wallL = new Wall(renderer, nTexturas[TSide], Vector2D(0, 0), false);
-	wallR = new Wall(renderer, nTexturas[TSide], Vector2D(WIN_WIDTH - WALL_WIDTH, 0), false);
-	roof = new Wall(renderer, nTexturas[TTopSide], Vector2D(0, 0), true);
 	ball = new Ball(renderer, nTexturas[TBall], this);
-	mapita = new BlockMap(renderer, nTexturas[TBrick]);
-	mapita->load(maps[Lv1]);
+	static_cast<BlockMap*>(Objects[Map])->load(maps[Lv1]);
 }
 
 void Game::run() {
@@ -61,7 +61,7 @@ void Game::update() {
 	ball->update();
 
 	//Comprobacion de victoria
-	if (mapita->getNumBlocks() == 0) {
+	if (static_cast<BlockMap*>(mapita)->getNumBlocks() == 0) {
 		nextLevel();
 		if (level > 3) win = true;
 	}
@@ -71,16 +71,16 @@ void Game::nextLevel() {
 	level++;
 	switch (level)	{
 	case 1:
-		mapita->load(maps[Lv1]);
+		static_cast<BlockMap*>(mapita)->load(maps[Lv1]);
 		break;
 	case 2:
-		mapita->load(maps[Lv2]);
+		static_cast<BlockMap*>(mapita)->load(maps[Lv2]);
 		break;
 	case 3:
-		mapita->load(maps[Lv3]);
+		static_cast<BlockMap*>(mapita)->load(maps[Lv3]);
 		break;
 	default:
-		mapita->load(maps[Lv1]);
+		static_cast<BlockMap*>(mapita)->load(maps[Lv1]);
 		break;
 	}
 	ball->respawn();
@@ -89,11 +89,10 @@ void Game::nextLevel() {
 void Game::render() const {
 	SDL_RenderClear(renderer); //Eliminamos lo que hay en pantalla
 	//Render de cada objeto
+	for (int i = 0; i < NUM_OBJECTS; i++) {
+		Objects[i]->render();
+	}
 	paddle->render();
-	wallL->render();
-	wallR->render();
-	roof->render();
-	mapita->render();
 	ball->render();
 
 	SDL_RenderPresent(renderer);
@@ -145,21 +144,21 @@ bool Game::collides(const SDL_Rect& rect, const Vector2D& vel, Vector2D& collVec
 		c = true;
 		pierdeVida();
 	}
-	else if ((rect.x + rect.w) - (WIN_WIDTH - WALL_WIDTH) < 5) { 
+	else if ((rect.x + rect.w) - (WIN_WIDTH - WALL_WIDTH) < 5) { //Parte der
 		c = true;
 		collVector = { -1, 0 };
 	}
-	else if (rect.x - WALL_WIDTH < 5) {
+	else if (rect.x - WALL_WIDTH < 5) { //Parte izq
 		c = true;
 		collVector = { 1, 0 };
 	}
 
 	//Colisiones con Bloques
 	Block* block = nullptr;
-	block = mapita->collides(rect, vel, collVector);
+	block = static_cast<BlockMap*>(mapita)->collides(rect, vel, collVector);
 	if (block != nullptr) {
 		if (block->getActive()) {
-			mapita->ballHitsBlock(block);
+			static_cast<BlockMap*>(mapita)->ballHitsBlock(block);
 			c = true;
 		}
 	}

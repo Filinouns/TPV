@@ -19,9 +19,9 @@ public:
 	int getW() { return w; }
 	int getH() { return h; }
 
-	void update();
-	void render();
-	void handleEvents(SDL_Event event);
+	virtual void update();
+	virtual void render();
+	virtual void handleEvents(SDL_Event event);
 	bool collides(const SDL_Rect& r, Vector2D& collVector); //Comprobacion de choque con la pelota
 	//virtual void renderFrame() {}
 

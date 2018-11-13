@@ -1,11 +1,6 @@
 #include "BlockMap.h"
-#include "Game.h"
-#include "Wall.h"
 
-BlockMap::BlockMap(SDL_Renderer* r, Texture* text) {
-	texture = text;
-	renderer = r;
-}
+BlockMap::BlockMap(SDL_Renderer* r, Texture* text) : ArkanoidObject (r, text) {}
 
 BlockMap::~BlockMap() { //Eliminamos la memoria dinamica
 	if (map != nullptr) {
@@ -17,11 +12,6 @@ BlockMap::~BlockMap() { //Eliminamos la memoria dinamica
 			delete[] map[i];
 			map[i] = nullptr;
 		}
-
-		/*for (int i = 0; i < row; i++) {
-			delete[] map[i];
-			map[i] = nullptr;
-		}*/
 
 		delete[] map;
 		map = nullptr;
