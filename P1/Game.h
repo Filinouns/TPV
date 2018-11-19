@@ -8,8 +8,8 @@
 #include "Paddle.h"
 #include "Ball.h"
 
-const uint NUM_TEXTURES = 6;
-const uint NUM_OBJECTS = 4;
+const uint NUM_TEXTURES = 5;
+const uint NUM_OBJECTS = 5;
 const uint NUM_MAPS = 3;
 const uint FRAME_RATE = 10;
 const uint WIN_WIDTH = 800;
@@ -24,8 +24,8 @@ const uint BALL_SIZE = 25;
 const Vector2D POS_WALL_L_ROOF = Vector2D(0, 0);
 const Vector2D POS_WALL_R = Vector2D(WIN_WIDTH - WALL_WIDTH, 0);
 
-enum Objects_T {WallL, WallR, Roof, Map};
-enum Textures_T {TDog, TBrick, TPaddle, TBall, TSide, TTopSide};
+enum Objects_T {WallL, WallR, Roof, Map, Player};
+enum Textures_T {TBrick, TPaddle, TBall, TSide, TTopSide};
 enum Maps_T {Lv1, Lv2, Lv3};
 
 struct TextureAtributtes {
@@ -35,9 +35,9 @@ struct TextureAtributtes {
 };
 
 const TextureAtributtes TEXT_ATT[NUM_TEXTURES] = {
-	{"dog.png", 1, 6}, {"bricks.png", 2, 3}, 
-	{"paddle.png", 1, 1}, {"ball.png", 1, 1}, 
-	{"side.png", 1, 1}, {"topside.png", 1, 1} 
+	{"bricks.png", 2, 3}, {"paddle.png", 1, 1}, 
+	{"ball.png", 1, 1}, {"side.png", 1, 1}, 
+	{"topside.png", 1, 1} 
 };
 
 const string maps[NUM_MAPS] = {

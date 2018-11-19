@@ -1,16 +1,14 @@
 #include "Paddle.h"
 #include "Game.h"
 
-Paddle::Paddle(SDL_Renderer* r, Texture* text) {
-	renderer = r;
-	texture = text;
-
+Paddle::Paddle(SDL_Renderer* r, Texture* text) : ArkanoidObject(r, text) {
 	x = WIN_WIDTH / 2 - texture->getW() / 2;
 	y = WIN_HEIGHT - 100;
 	h = texture->getH();
 	w = texture->getW();
 
-	destRect.h = destRect.w = h;
+	destRect.h = h;
+	destRect.w = w;
 	destRect.x = x;
 	destRect.y = y;
 
@@ -21,10 +19,6 @@ Paddle::Paddle(SDL_Renderer* r, Texture* text) {
 Paddle::~Paddle() {}
 
 void Paddle::render() {
-	destRect.w = w;
-	destRect.h = h;
-	destRect.y = y;
-	destRect.x = x;
 	texture->renderFrame(destRect, 0, 0);
 }
 

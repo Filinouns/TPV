@@ -16,5 +16,5 @@ void ArkanoidObject::saveToFile() {
 }
 
 SDL_Rect ArkanoidObject::getRect() {
-
+	return destRect;
 }

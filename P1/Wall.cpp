@@ -1,10 +1,9 @@
 #include "Wall.h"
 
-Wall::Wall(SDL_Renderer * r, Texture* text, Vector2D position, bool roof) : ArkanoidObject(r, text){
-	pos = position;
+Wall::Wall(SDL_Renderer * r, Texture* text, Vector2D position, bool roof) : ArkanoidObject(r, text) {
+	x = position.getX();
+	y = position.getY();
 
-	destRect.x = pos.getX();
-	destRect.y = pos.getY(); 
 	if (!roof) {
 		h = WIN_WIDTH;
 		w = WALL_WIDTH;
@@ -12,6 +11,8 @@ Wall::Wall(SDL_Renderer * r, Texture* text, Vector2D position, bool roof) : Arka
 		h = WALL_WIDTH;
 		w = WIN_WIDTH;
 	}
+	destRect.x = x;
+	destRect.y = y;
 	destRect.h = h;
 	destRect.w = w;
 }

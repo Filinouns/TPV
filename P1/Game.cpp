@@ -35,13 +35,12 @@ void Game::initTextures() {
 	}
 }
 
-void Game::initObjects() {
-	//Aqui los objetos del juego
+void Game::initObjects() { //Aqui los objetos del juego
 	Objects[WallL] = new Wall(renderer, nTexturas[TSide], POS_WALL_L_ROOF, false);
 	Objects[WallR] = new Wall(renderer, nTexturas[TSide], POS_WALL_R, false);
 	Objects[Roof] = new Wall(renderer, nTexturas[TTopSide], POS_WALL_L_ROOF, true);
 	Objects[Map] = new BlockMap(renderer, nTexturas[TBrick]);
-	paddle = new Paddle(renderer, nTexturas[TPaddle]);
+	Objects[Player] = new Paddle(renderer, nTexturas[TPaddle]);
 	ball = new Ball(renderer, nTexturas[TBall], this);
 	static_cast<BlockMap*>(Objects[Map])->load(maps[Lv1]);
 }

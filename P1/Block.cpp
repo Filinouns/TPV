@@ -11,8 +11,11 @@ Block::Block(SDL_Renderer* r, Texture * text, int c, int row, int col, float hei
 
 	pos = Vector2D(columna  * w + WALL_WIDTH, fila  * h + WALL_WIDTH);
 
-	destRect.x = pos.getX();
-	destRect.y = pos.getY();
+	x = pos.getX();
+	y = pos.getY();
+
+	destRect.x = x;
+	destRect.y = y;
 	destRect.h = h;
 	destRect.w = w;
 
@@ -44,7 +47,5 @@ Block::Block(SDL_Renderer* r, Texture * text, int c, int row, int col, float hei
 Block::~Block(){}
 
 void Block::render() {
-	if (active) {
-		texture->renderFrame(destRect, vColor.getX(), vColor.getY());
-	}
+	if (active) texture->renderFrame(destRect, vColor.getX(), vColor.getY());
 }
