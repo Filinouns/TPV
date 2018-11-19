@@ -1,10 +1,7 @@
 #include "Ball.h"
 #include "Game.h"
-#include "Paddle.h"
 
-Ball::Ball(SDL_Renderer* r, Texture* text, Game* g) {
-	renderer = r;
-	texture = text;
+Ball::Ball(SDL_Renderer* r, Texture* text, Game* g) : MovingObject(r, text) {
 	game = g;
 
 	vel = initVel;
@@ -13,8 +10,11 @@ Ball::Ball(SDL_Renderer* r, Texture* text, Game* g) {
 	w = BALL_SIZE;
 
 	pos = Vector2D(((WIN_HEIGHT / 3) * 2), (WIN_WIDTH / 2));
-	destRect.x = pos.getX();
-	destRect.y = pos.getY();
+	x = pos.getX();
+	y = pos.getY();
+
+	destRect.x = x;
+	destRect.y = y;
 	destRect.w = w;
 	destRect.h = h;
 }
@@ -28,8 +28,12 @@ void Ball::render() {
 void Ball::respawn() {
 	resp = true;
 	pos = Vector2D(((WIN_HEIGHT / 3) * 2), (WIN_WIDTH / 2));
-	destRect.x = pos.getX();
-	destRect.y = pos.getY();
+	x = pos.getX();
+	y = pos.getY();
+
+	destRect.x = x;
+	destRect.y = y;
+
 	vel = initVel;
 }
 
@@ -42,8 +46,8 @@ void Ball::update() {
 		if (!resp) {
 			vel = vel - (collVector * (2 * (vel*collVector)));
 			pos = prevPos + vel;
-			destRect.x = pos.getX();
-			destRect.y = pos.getY();
+			x = pos.getX();
+			y = pos.getY();
 			//Controlador de velocidad
 			if (vel.getX() > 2)			vel.setX(2);
 			else if (vel.getX() < -2)	vel.setX(-2);
@@ -52,7 +56,10 @@ void Ball::update() {
 		} else resp = false;
 	} else {
 		pos = prevPos + vel;
-		destRect.x = pos.getX();
-		destRect.y = pos.getY();
+		x = pos.getX();
+		y = pos.getY();
 	}
+
+	destRect.x = x;
+	destRect.y = y;
 }

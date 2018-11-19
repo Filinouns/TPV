@@ -8,8 +8,10 @@
 #include "Paddle.h"
 #include "Ball.h"
 
+// Preguntar que mierda es la lista de objetos dinamica kjej o con iteradores o klk pasa aqui ajjjj
+
 const uint NUM_TEXTURES = 5;
-const uint NUM_OBJECTS = 5;
+const uint NUM_OBJECTS = 6;
 const uint NUM_MAPS = 3;
 const uint FRAME_RATE = 10;
 const uint WIN_WIDTH = 800;
@@ -24,7 +26,7 @@ const uint BALL_SIZE = 25;
 const Vector2D POS_WALL_L_ROOF = Vector2D(0, 0);
 const Vector2D POS_WALL_R = Vector2D(WIN_WIDTH - WALL_WIDTH, 0);
 
-enum Objects_T {WallL, WallR, Roof, Map, Player};
+enum Objects_T {WallL, WallR, Roof, Map, Player, OBall};
 enum Textures_T {TBrick, TPaddle, TBall, TSide, TTopSide};
 enum Maps_T {Lv1, Lv2, Lv3};
 
@@ -60,6 +62,7 @@ public:
 	void initTextures();
 	void initObjects();
 	void deleteTextures();
+	void deleteObjects();
 	bool collides(const SDL_Rect& rect, const Vector2D& vel, Vector2D& collVector);
 
 	void pierdeVida();
@@ -73,13 +76,8 @@ protected:
 	int vidas = 3;
 	int level = 1;
 	Texture* nTexturas[NUM_TEXTURES];
-	GameObject* Objects[NUM_OBJECTS];
+	ArkanoidObject* Objects[NUM_OBJECTS];
 
 private:
-	Paddle* paddle = nullptr;
-	GameObject* wallL = nullptr;
-	GameObject* wallR = nullptr;
-	GameObject* roof = nullptr;
-	Ball* ball = nullptr;
 	GameObject* mapita = nullptr;
 };

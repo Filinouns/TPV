@@ -1,7 +1,7 @@
 #include "Paddle.h"
 #include "Game.h"
 
-Paddle::Paddle(SDL_Renderer* r, Texture* text) : ArkanoidObject(r, text) {
+Paddle::Paddle(SDL_Renderer* r, Texture* text) : MovingObject(r, text) {
 	x = WIN_WIDTH / 2 - texture->getW() / 2;
 	y = WIN_HEIGHT - 100;
 	h = texture->getH();
@@ -23,9 +23,9 @@ void Paddle::render() {
 }
 
 void Paddle::update() {
-	destRect.x += speed;
+	destRect.x += vel.getX();
 	x = destRect.x;
-	if (x < WALL_WIDTH + 5 || (x + w) > WIN_WIDTH - WALL_WIDTH - 10) speed = 0;
+	if (x < WALL_WIDTH + 5 || (x + w) > WIN_WIDTH - WALL_WIDTH - 10) vel.setX(0);
 }
 
 bool Paddle::collides(const SDL_Rect& r, Vector2D& collVector) {
@@ -56,12 +56,12 @@ void Paddle::handleEvents(SDL_Event event) {
 		switch (event.key.keysym.sym) {
 		case SDLK_LEFT:
 			if (x > WALL_WIDTH) {
-				speed = -3;
+				vel.setX(-3);
 			}
 			break;
 		case SDLK_RIGHT:
 			if (x < WIN_WIDTH - WALL_WIDTH - destRect.w) {
-				speed = 3;
+				vel.setX(3);
 			}
 			break;
 		default:
@@ -70,7 +70,7 @@ void Paddle::handleEvents(SDL_Event event) {
 		break;
 	case SDL_KEYUP:
 		case (SDLK_RIGHT || SDLK_LEFT):
-			speed = 0;
+			vel.setX(0);
 			break;
 	}
 }

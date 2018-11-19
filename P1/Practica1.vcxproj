@@ -124,6 +124,7 @@
     <ClCompile Include="Block.cpp" />
     <ClCompile Include="BlockMap.cpp" />
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="MovingObject.cpp" />
     <ClCompile Include="Paddle.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="main.cpp" />
@@ -137,6 +138,7 @@
     <ClInclude Include="Block.h" />
     <ClInclude Include="BlockMap.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="MovingObject.h" />
     <ClInclude Include="Paddle.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Texture.h" />

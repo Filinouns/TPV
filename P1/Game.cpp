@@ -41,7 +41,7 @@ void Game::initObjects() { //Aqui los objetos del juego
 	Objects[Roof] = new Wall(renderer, nTexturas[TTopSide], POS_WALL_L_ROOF, true);
 	Objects[Map] = new BlockMap(renderer, nTexturas[TBrick]);
 	Objects[Player] = new Paddle(renderer, nTexturas[TPaddle]);
-	ball = new Ball(renderer, nTexturas[TBall], this);
+	Objects[OBall] = new Ball(renderer, nTexturas[TBall], this);
 	static_cast<BlockMap*>(Objects[Map])->load(maps[Lv1]);
 }
 
@@ -55,9 +55,10 @@ void Game::run() {
 }
 
 void Game::update() {
-	//Update de los objetos 
-	paddle->update();
-	ball->update();
+	//Update de los objetos
+	for (int i = 0; i < NUM_OBJECTS; i++) {
+		Objects[i]->update();
+	}
 
 	//Comprobacion de victoria
 	if (static_cast<BlockMap*>(mapita)->getNumBlocks() == 0) {
@@ -68,7 +69,7 @@ void Game::update() {
 
 void Game::nextLevel() {
 	level++;
-	switch (level)	{
+	switch (level) {
 	case 1:
 		static_cast<BlockMap*>(mapita)->load(maps[Lv1]);
 		break;
@@ -82,7 +83,7 @@ void Game::nextLevel() {
 		static_cast<BlockMap*>(mapita)->load(maps[Lv1]);
 		break;
 	}
-	ball->respawn();
+	static_cast<Ball*>(Objects[OBall])->respawn();
 }
 
 void Game::render() const {
@@ -91,8 +92,6 @@ void Game::render() const {
 	for (int i = 0; i < NUM_OBJECTS; i++) {
 		Objects[i]->render();
 	}
-	paddle->render();
-	ball->render();
 
 	SDL_RenderPresent(renderer);
 }
@@ -113,13 +112,13 @@ void Game::handleEvents() {
 			}
 		}
 		//Eventos de cada obejeto
-		paddle->handleEvents(event);
+		static_cast<Paddle*>(Objects[Player])->handleEvents(event);
 	}
 }
 
 void Game::pierdeVida() {
 	vidas--;
-	ball->respawn();
+	static_cast<Ball*>(Objects[OBall])->respawn();
 	if (vidas == 0) {
 		exit = true;
 	}
@@ -164,7 +163,7 @@ bool Game::collides(const SDL_Rect& rect, const Vector2D& vel, Vector2D& collVec
 	//---------------
 
 	//Colisiones con paddle
-	if (paddle->collides(rect, collVector)) {
+	if (static_cast<Paddle*>(Objects[Player])->collides(rect, collVector)) {
 		c = true;
 	}
 
@@ -173,14 +172,7 @@ bool Game::collides(const SDL_Rect& rect, const Vector2D& vel, Vector2D& collVec
 
 Game::~Game() {
 	deleteTextures();	//Eliminar las texturas del array de texturas
-
-	delete paddle;    paddle = nullptr;
-	delete wallL;    wallL = nullptr;
-	delete wallR;    wallR = nullptr;
-	delete roof;    roof = nullptr;
-	delete ball;    ball = nullptr;
-	delete mapita;    mapita = nullptr;
-	//delete block;    block = nullptr;
+	deleteObjects();
 
 	SDL_DestroyRenderer(renderer);
 	renderer = nullptr;
@@ -196,4 +188,12 @@ void Game::deleteTextures() {
 		delete i;
 		i = nullptr;
 	}
+}
+
+void Game::deleteObjects() {
+	for (auto i : Objects) {
+		delete i;
+		i = nullptr;
+	}
+	delete mapita;    mapita = nullptr;
 }
