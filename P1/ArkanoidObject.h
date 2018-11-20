@@ -1,12 +1,7 @@
 #pragma once
 #include "GameObject.h"
 #include "Texture.h"
-
-#include "Wall.h"
-#include "Paddle.h"
-#include "Block.h"
-#include "Ball.h"
-#include "BlockMap.h"
+#include "Vector2D.h"
 
 class ArkanoidObject : public GameObject {
 public:

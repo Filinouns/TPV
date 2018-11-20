@@ -19,6 +19,12 @@
     <Filter Include="Archivos de origen\Objetos">
       <UniqueIdentifier>{8dc6afda-7320-466f-aa39-adeed61d3ca6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Archivos de encabezado\Error">
+      <UniqueIdentifier>{6a649ed2-d7bf-46f6-9480-68dd1872cc4e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de origen\Error">
+      <UniqueIdentifier>{4cf7c135-5b39-46db-80a2-c1c6ce147333}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -57,6 +63,18 @@
     <ClCompile Include="MovingObject.cpp">
       <Filter>Archivos de origen\Objetos</Filter>
     </ClCompile>
+    <ClCompile Include="ArkanoidError.cpp">
+      <Filter>Archivos de origen\Error</Filter>
+    </ClCompile>
+    <ClCompile Include="SDLError.cpp">
+      <Filter>Archivos de origen\Error</Filter>
+    </ClCompile>
+    <ClCompile Include="FileNotFoundError.cpp">
+      <Filter>Archivos de origen\Error</Filter>
+    </ClCompile>
+    <ClCompile Include="FileFormatError.cpp">
+      <Filter>Archivos de origen\Error</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Texture.h">
@@ -91,6 +109,18 @@
     </ClInclude>
     <ClInclude Include="MovingObject.h">
       <Filter>Archivos de encabezado\Objetos</Filter>
+    </ClInclude>
+    <ClInclude Include="ArkanoidError.h">
+      <Filter>Archivos de encabezado\Error</Filter>
+    </ClInclude>
+    <ClInclude Include="SDLError.h">
+      <Filter>Archivos de encabezado\Error</Filter>
+    </ClInclude>
+    <ClInclude Include="FileNotFoundError.h">
+      <Filter>Archivos de encabezado\Error</Filter>
+    </ClInclude>
+    <ClInclude Include="FileFormatError.h">
+      <Filter>Archivos de encabezado\Error</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

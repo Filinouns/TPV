@@ -8,6 +8,10 @@ public:
 	virtual ~Block();
 	int getRow() { return fila; }
 	int getCol() { return columna; }
+	int getX() { return x; }
+	int getY() { return y; }
+	int getH() { return h; }
+	int getW() { return w; }
 
 	virtual void render();
 

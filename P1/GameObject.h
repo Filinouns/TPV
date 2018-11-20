@@ -1,11 +1,9 @@
 #pragma once
-#include "Vector2D.h"
 #include "checkML.h"
-#include "Game.h"
 
 class GameObject {
 public:
-	GameObject() {};
+	GameObject();
 	virtual ~GameObject();
 
 	virtual void render() {};

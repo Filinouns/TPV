@@ -61,7 +61,7 @@ void Game::update() {
 	}
 
 	//Comprobacion de victoria
-	if (static_cast<BlockMap*>(mapita)->getNumBlocks() == 0) {
+	if (static_cast<BlockMap*>(Objects[Map])->getNumBlocks() == 0) {
 		nextLevel();
 		if (level > 3) win = true;
 	}
@@ -69,18 +69,21 @@ void Game::update() {
 
 void Game::nextLevel() {
 	level++;
+
+	if (level > NUM_MAPS) level = 1;
+
 	switch (level) {
 	case 1:
-		static_cast<BlockMap*>(mapita)->load(maps[Lv1]);
+		static_cast<BlockMap*>(Objects[Map])->load(maps[Lv1]);
 		break;
 	case 2:
-		static_cast<BlockMap*>(mapita)->load(maps[Lv2]);
+		static_cast<BlockMap*>(Objects[Map])->load(maps[Lv2]);
 		break;
 	case 3:
-		static_cast<BlockMap*>(mapita)->load(maps[Lv3]);
+		static_cast<BlockMap*>(Objects[Map])->load(maps[Lv3]);
 		break;
 	default:
-		static_cast<BlockMap*>(mapita)->load(maps[Lv1]);
+		static_cast<BlockMap*>(Objects[Map])->load(maps[Lv1]);
 		break;
 	}
 	static_cast<Ball*>(Objects[OBall])->respawn();
@@ -107,9 +110,15 @@ void Game::handleEvents() {
 			case SDLK_ESCAPE: //Para salir con esc
 				exit = true;
 				break;
+			case SDLK_c:
+				nextLevel();
+				break;
 			default:
 				break;
 			}
+			break;
+		default:
+			break;
 		}
 		//Eventos de cada obejeto
 		static_cast<Paddle*>(Objects[Player])->handleEvents(event);
@@ -153,10 +162,10 @@ bool Game::collides(const SDL_Rect& rect, const Vector2D& vel, Vector2D& collVec
 
 	//Colisiones con Bloques
 	Block* block = nullptr;
-	block = static_cast<BlockMap*>(mapita)->collides(rect, vel, collVector);
+	block = static_cast<BlockMap*>(Objects[Map])->collides(rect, vel, collVector);
 	if (block != nullptr) {
 		if (block->getActive()) {
-			static_cast<BlockMap*>(mapita)->ballHitsBlock(block);
+			static_cast<BlockMap*>(Objects[Map])->ballHitsBlock(block);
 			c = true;
 		}
 	}
@@ -195,5 +204,4 @@ void Game::deleteObjects() {
 		delete i;
 		i = nullptr;
 	}
-	delete mapita;    mapita = nullptr;
 }

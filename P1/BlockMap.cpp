@@ -1,4 +1,5 @@
 #include "BlockMap.h"
+#include "Game.h"
 
 BlockMap::BlockMap(SDL_Renderer* r, Texture* text) : ArkanoidObject (r, text) {}
 
@@ -58,13 +59,12 @@ Block* BlockMap::collides(const SDL_Rect& ballRect, const Vector2D& ballVel, Vec
 	Vector2D p0 = { static_cast<double>(ballRect.x), static_cast<double>(ballRect.y) }; // top-left
 	Vector2D p1 = { static_cast<double>(ballRect.x) + static_cast<double>(ballRect.w), static_cast<double>(ballRect.y) }; // top-right
 	Vector2D p2 = { static_cast<double>(ballRect.x), static_cast<double>(ballRect.y) + static_cast<double>(ballRect.h) }; // bottom-left
-	Vector2D p3 = { static_cast<double>(ballRect.x) + static_cast<double>(ballRect.w), 
+	Vector2D p3 = { static_cast<double>(ballRect.x) + static_cast<double>(ballRect.w),
 					static_cast<double>(ballRect.y) + static_cast<double>(ballRect.h) }; // bottom-right
 	Block* b = nullptr;
-	SDL_Rect rect = b->getRect();
 	if (ballVel.getX() < 0 && ballVel.getY() < 0) {
 		if ((b = blockAt(p0))) {
-			if ((rect.y + rect.h - p0.getY()) <= (rect.x + rect.w - p0.getX()))
+			if ((b->getY() + b->getH() - p0.getY()) <= (b->getX() + b->getW() - p0.getX()))
 				collVector = { 0,1 }; // Borde inferior mas cerca de p0
 			else
 				collVector = { 1,0 }; // Borde dcho mas cerca de p0
@@ -76,7 +76,7 @@ Block* BlockMap::collides(const SDL_Rect& ballRect, const Vector2D& ballVel, Vec
 	}
 	else if (ballVel.getX() >= 0 && ballVel.getY() < 0) {
 		if ((b = blockAt(p1))) {
-			if (((rect.y + rect.h - p1.getY()) <= (p1.getX() - rect.x)) || ballVel.getX() == 0)
+			if (((b->getY() + b->getH() - p1.getY()) <= (p1.getX() - b->getX())) || ballVel.getX() == 0)
 				collVector = { 0,1 }; // Borde inferior mas cerca de p1
 			else
 				collVector = { -1,0 }; // Borde izqdo mas cerca de p1
@@ -88,7 +88,7 @@ Block* BlockMap::collides(const SDL_Rect& ballRect, const Vector2D& ballVel, Vec
 	}
 	else if (ballVel.getX() > 0 && ballVel.getY() > 0) {
 		if ((b = blockAt(p3))) {
-			if (((p3.getY() - rect.y) <= (p3.getX() - rect.x))) // || ballVel.getX() == 0)
+			if (((p3.getY() - b->getY()) <= (p3.getX() - b->getX()))) // || ballVel.getX() == 0)
 				collVector = { 0,-1 }; // Borde superior mas cerca de p3
 			else
 				collVector = { -1,0 }; // Borde dcho mas cerca de p3
@@ -100,7 +100,7 @@ Block* BlockMap::collides(const SDL_Rect& ballRect, const Vector2D& ballVel, Vec
 	}
 	else if (ballVel.getX() < 0 && ballVel.getY() > 0) {
 		if ((b = blockAt(p2))) {
-			if (((p2.getY() - rect.y) <= (rect.x + rect.w - p2.getX()))) // || ballVel.getX() == 0)
+			if (((p2.getY() - b->getY()) <= (b->getX() + b->getW() - p2.getX()))) // || ballVel.getX() == 0)
 				collVector = { 0,-1 }; // Borde superior mas cerca de p2
 			else
 				collVector = { 1,0 }; // Borde dcho mas cerca de p0

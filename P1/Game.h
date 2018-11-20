@@ -8,8 +8,6 @@
 #include "Paddle.h"
 #include "Ball.h"
 
-// Preguntar que mierda es la lista de objetos dinamica kjej o con iteradores o klk pasa aqui ajjjj
-
 const uint NUM_TEXTURES = 5;
 const uint NUM_OBJECTS = 6;
 const uint NUM_MAPS = 3;
@@ -79,5 +77,4 @@ protected:
 	ArkanoidObject* Objects[NUM_OBJECTS];
 
 private:
-	GameObject* mapita = nullptr;
 };

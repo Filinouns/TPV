@@ -1,4 +1,5 @@
 #include "Block.h"
+#include "Game.h"
 
 Block::Block(SDL_Renderer* r, Texture * text, int c, int row, int col, float height, float width) : ArkanoidObject (r, text) {
 	color = c;

@@ -1,4 +1,5 @@
 #include "Wall.h"
+#include "Game.h"
 
 Wall::Wall(SDL_Renderer * r, Texture* text, Vector2D position, bool roof) : ArkanoidObject(r, text) {
 	x = position.getX();

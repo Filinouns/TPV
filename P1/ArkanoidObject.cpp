@@ -1,6 +1,6 @@
 #include "ArkanoidObject.h"
 
-ArkanoidObject::ArkanoidObject(SDL_Renderer* r, Texture* text) {
+ArkanoidObject::ArkanoidObject(SDL_Renderer* r, Texture* text) : GameObject() {
 	texture = text;
 	renderer = r;
 }
