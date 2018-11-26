@@ -3,7 +3,7 @@
 
 class SDLError : public ArkanoidError {
 public:
-	SDLError();
+	SDLError(string error);
 	virtual ~SDLError();
 
 };

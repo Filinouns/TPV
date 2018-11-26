@@ -1,6 +1,6 @@
 #include "SDLError.h"
 
-SDLError::SDLError() {
+SDLError::SDLError(string error) : ArkanoidError(error) {
 
 }
 

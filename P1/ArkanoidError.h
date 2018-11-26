@@ -1,7 +1,10 @@
 #pragma once
+#include <stdexcept>
 
-class ArkanoidError {
+using namespace std;
+
+class ArkanoidError : public logic_error {
 public:
-	ArkanoidError();
+	ArkanoidError(string error);
 	virtual ~ArkanoidError();
 };

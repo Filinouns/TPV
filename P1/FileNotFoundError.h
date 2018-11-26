@@ -1,10 +1,8 @@
 #pragma once
 #include "ArkanoidError.h"
-class FileNotFoundError :
-	public ArkanoidError
-{
+class FileNotFoundError : public ArkanoidError {
 public:
-	FileNotFoundError();
+	FileNotFoundError(string error);
 	virtual ~FileNotFoundError();
 };
 

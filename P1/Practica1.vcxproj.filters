@@ -116,11 +116,11 @@
     <ClInclude Include="SDLError.h">
       <Filter>Archivos de encabezado\Error</Filter>
     </ClInclude>
-    <ClInclude Include="FileNotFoundError.h">
-      <Filter>Archivos de encabezado\Error</Filter>
-    </ClInclude>
     <ClInclude Include="FileFormatError.h">
       <Filter>Archivos de encabezado\Error</Filter>
+    </ClInclude>
+    <ClInclude Include="FileNotFoundError.h">
+      <Filter>Archivos de encabezado\Objetos</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

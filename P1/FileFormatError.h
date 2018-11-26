@@ -1,10 +1,9 @@
 #pragma once
 #include "ArkanoidError.h"
-class FileFormatError :
-	public ArkanoidError
-{
+
+class FileFormatError : public ArkanoidError {
 public:
-	FileFormatError();
+	FileFormatError(string error);
 	virtual ~FileFormatError();
 };
 

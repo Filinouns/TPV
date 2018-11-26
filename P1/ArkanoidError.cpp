@@ -1,6 +1,6 @@
 #include "ArkanoidError.h"
 
-ArkanoidError::ArkanoidError() {
+ArkanoidError::ArkanoidError(string error) : logic_error(error) {
 
 }
 
