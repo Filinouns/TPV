@@ -25,5 +25,4 @@ protected:
 	SDL_Renderer* renderer = nullptr;
 
 private:
-
 };

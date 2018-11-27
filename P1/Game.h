@@ -2,13 +2,15 @@
 #include "checkML.h"
 #include "Texture.h"
 #include "GameObject.h"
+#include <list>
 
 #include "BlockMap.h"
 #include "Wall.h"
 #include "Paddle.h"
 #include "Ball.h"
+#include "Reward.h"
 
-const uint NUM_TEXTURES = 5;
+const uint NUM_TEXTURES = 6;
 const uint NUM_OBJECTS = 6;
 const uint NUM_MAPS = 3;
 const uint FRAME_RATE = 10;
@@ -19,13 +21,15 @@ const string IMAGES_PATH = "../images/";
 const uint WALL_WIDTH = 40;
 const uint PADDLE_MOVE = 5;
 const uint BALL_SIZE = 25;
+const uint REWARD_W = 30;
+const uint REWARD_H = 20;
+const uint REWARD_CHANCE = 5;
 
 //Constantes de posiciones de los objetos
 const Vector2D POS_WALL_L_ROOF = Vector2D(0, 0);
 const Vector2D POS_WALL_R = Vector2D(WIN_WIDTH - WALL_WIDTH, 0);
 
-enum Objects_T {WallL, WallR, Roof, Map, Player, OBall};
-enum Textures_T {TBrick, TPaddle, TBall, TSide, TTopSide};
+enum Textures_T {TBrick, TPaddle, TBall, TSide, TTopSide, TReward};
 enum Maps_T {Lv1, Lv2, Lv3};
 
 struct TextureAtributtes {
@@ -37,7 +41,7 @@ struct TextureAtributtes {
 const TextureAtributtes TEXT_ATT[NUM_TEXTURES] = {
 	{"bricks.png", 2, 3}, {"paddle.png", 1, 1}, 
 	{"ball.png", 1, 1}, {"side.png", 1, 1}, 
-	{"topside.png", 1, 1} 
+	{"topside.png", 1, 1}, {"rewards.png", 10, 8}
 };
 
 const string maps[NUM_MAPS] = {
@@ -62,6 +66,7 @@ public:
 	void deleteTextures();
 	void deleteObjects();
 	bool collides(const SDL_Rect& rect, const Vector2D& vel, Vector2D& collVector);
+	void createReward(const SDL_Rect& rect);
 
 	void pierdeVida();
 	void nextLevel();
@@ -73,8 +78,13 @@ protected:
 	bool exit = false, win = false;
 	int vidas = 3;
 	int level = 1;
+	int puntuacion = 0;
+
+	//Intentar crear listas de objetos y texturas con iteradores para recorrerlas
 	Texture* nTexturas[NUM_TEXTURES];
-	ArkanoidObject* Objects[NUM_OBJECTS];
+	list<ArkanoidObject*> objects;
 
 private:
+	BlockMap* blockMap;
+	list<ArkanoidObject*>::iterator mapIt, paddleIt, ballIt;
 };

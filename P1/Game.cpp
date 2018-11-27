@@ -28,6 +28,7 @@ void Game::initSDL() {
 }
 
 void Game::initTextures() {
+	//textures.resize(NUM_TEXTURES);
 	for (int i = 0; i < NUM_TEXTURES; i++) {
 		nTexturas[i] = new Texture(renderer);
 		nTexturas[i]->load(IMAGES_PATH + TEXT_ATT[i].nombre, TEXT_ATT[i].row, TEXT_ATT[i].col);
@@ -35,14 +36,19 @@ void Game::initTextures() {
 	}
 }
 
-void Game::initObjects() { //Aqui los objetos del juego
-	Objects[WallL] = new Wall(renderer, nTexturas[TSide], POS_WALL_L_ROOF, false);
-	Objects[WallR] = new Wall(renderer, nTexturas[TSide], POS_WALL_R, false);
-	Objects[Roof] = new Wall(renderer, nTexturas[TTopSide], POS_WALL_L_ROOF, true);
-	Objects[Map] = new BlockMap(renderer, nTexturas[TBrick]);
-	Objects[Player] = new Paddle(renderer, nTexturas[TPaddle]);
-	Objects[OBall] = new Ball(renderer, nTexturas[TBall], this);
-	static_cast<BlockMap*>(Objects[Map])->load(maps[Lv1]);
+void Game::initObjects() { //Aqui los objetos del juego 
+	blockMap = new BlockMap(renderer, nTexturas[TBrick]);
+	blockMap->load(maps[Lv1]);
+	objects.push_back(blockMap);
+	mapIt = --(objects.end());
+
+	objects.push_back(new Ball(renderer, nTexturas[TBall], this));
+	ballIt = --(objects.end());
+	objects.push_back(new Paddle(renderer, nTexturas[TPaddle]));
+	paddleIt = --(objects.end());
+	objects.push_back(new Wall(renderer, nTexturas[TSide], POS_WALL_L_ROOF, false));
+	objects.push_back(new Wall(renderer, nTexturas[TSide], POS_WALL_R, false));
+	objects.push_back(new Wall(renderer, nTexturas[TTopSide], POS_WALL_L_ROOF, true));
 }
 
 void Game::run() {
@@ -56,12 +62,10 @@ void Game::run() {
 
 void Game::update() {
 	//Update de los objetos
-	for (int i = 0; i < NUM_OBJECTS; i++) {
-		Objects[i]->update();
-	}
+	for (auto it = objects.begin(); it != objects.end(); it++) static_cast<ArkanoidObject*>(*it)->update();
 
 	//Comprobacion de victoria
-	if (static_cast<BlockMap*>(Objects[Map])->getNumBlocks() == 0) {
+	if (static_cast<BlockMap*>(*mapIt)->getNumBlocks() == 0) {
 		nextLevel();
 		if (level > 3) win = true;
 	}
@@ -74,26 +78,27 @@ void Game::nextLevel() {
 
 	switch (level) {
 	case 1:
-		static_cast<BlockMap*>(Objects[Map])->load(maps[Lv1]);
+		static_cast<BlockMap*>(*mapIt)->load(maps[Lv1]);
 		break;
 	case 2:
-		static_cast<BlockMap*>(Objects[Map])->load(maps[Lv2]);
+		static_cast<BlockMap*>(*mapIt)->load(maps[Lv2]);
 		break;
 	case 3:
-		static_cast<BlockMap*>(Objects[Map])->load(maps[Lv3]);
+		static_cast<BlockMap*>(*mapIt)->load(maps[Lv3]);
 		break;
 	default:
-		static_cast<BlockMap*>(Objects[Map])->load(maps[Lv1]);
+		static_cast<BlockMap*>(*mapIt)->load(maps[Lv1]);
 		break;
 	}
-	static_cast<Ball*>(Objects[OBall])->respawn();
+
+	static_cast<Ball*>(*ballIt)->respawn();
 }
 
 void Game::render() const {
 	SDL_RenderClear(renderer); //Eliminamos lo que hay en pantalla
 	//Render de cada objeto
-	for (int i = 0; i < NUM_OBJECTS; i++) {
-		Objects[i]->render();
+	for (auto it = objects.begin(); it != objects.end(); it++) {
+		static_cast<ArkanoidObject*>(*it)->render();
 	}
 
 	SDL_RenderPresent(renderer);
@@ -121,13 +126,13 @@ void Game::handleEvents() {
 			break;
 		}
 		//Eventos de cada obejeto
-		static_cast<Paddle*>(Objects[Player])->handleEvents(event);
+		static_cast<Paddle*>(*paddleIt)->handleEvents(event);
 	}
 }
 
 void Game::pierdeVida() {
 	vidas--;
-	static_cast<Ball*>(Objects[OBall])->respawn();
+	static_cast<Ball*>(*ballIt)->respawn();
 	if (vidas == 0) {
 		exit = true;
 	}
@@ -162,21 +167,31 @@ bool Game::collides(const SDL_Rect& rect, const Vector2D& vel, Vector2D& collVec
 
 	//Colisiones con Bloques
 	Block* block = nullptr;
-	block = static_cast<BlockMap*>(Objects[Map])->collides(rect, vel, collVector);
+	block = static_cast<BlockMap*>(*mapIt)->collides(rect, vel, collVector);
 	if (block != nullptr) {
 		if (block->getActive()) {
-			static_cast<BlockMap*>(Objects[Map])->ballHitsBlock(block);
+			static_cast<BlockMap*>(*mapIt)->ballHitsBlock(block);
 			c = true;
+			puntuacion++;
+			createReward(block->getRect());
 		}
 	}
 	//---------------
 
 	//Colisiones con paddle
-	if (static_cast<Paddle*>(Objects[Player])->collides(rect, collVector)) {
+	if (static_cast<Paddle*>(*paddleIt)->collides(rect, collVector)) {
 		c = true;
 	}
 
 	return c;
+}
+
+void Game::createReward(const SDL_Rect &rect) {
+	int aux = rand() % REWARD_CHANCE;
+	if (aux == 0) {
+		int r = rand() % 8;
+		objects.push_back(new Reward(renderer, nTexturas[TReward], rect.x, rect.y, r));
+	}
 }
 
 Game::~Game() {
@@ -200,7 +215,7 @@ void Game::deleteTextures() {
 }
 
 void Game::deleteObjects() {
-	for (auto i : Objects) {
+	for (auto i : objects) {
 		delete i;
 		i = nullptr;
 	}

@@ -25,6 +25,12 @@
     <Filter Include="Archivos de origen\Error">
       <UniqueIdentifier>{4cf7c135-5b39-46db-80a2-c1c6ce147333}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Archivos de origen\Objetos\Rewards">
+      <UniqueIdentifier>{38e681f7-dac9-494e-b39c-33f1f461dc74}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\Objetos\Rewards">
+      <UniqueIdentifier>{77b20d36-c345-4ae0-a61d-0e23da5c2afa}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -75,6 +81,9 @@
     <ClCompile Include="FileFormatError.cpp">
       <Filter>Archivos de origen\Error</Filter>
     </ClCompile>
+    <ClCompile Include="Reward.cpp">
+      <Filter>Archivos de origen\Objetos\Rewards</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Texture.h">
@@ -121,6 +130,9 @@
     </ClInclude>
     <ClInclude Include="FileNotFoundError.h">
       <Filter>Archivos de encabezado\Objetos</Filter>
+    </ClInclude>
+    <ClInclude Include="Reward.h">
+      <Filter>Archivos de encabezado\Objetos\Rewards</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

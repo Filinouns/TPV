@@ -1,7 +1,7 @@
 #pragma once
 #include "MovingObject.h"
 #include "Paddle.h"
-//#include "Game.h"		//No funciona correctamente el programa si hacemos el puntero a juego
+//#include "Game.h"
 
 class Game;
 
