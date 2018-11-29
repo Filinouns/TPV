@@ -8,8 +8,6 @@ Block::Block(SDL_Renderer* r, Texture * text, int c, int row, int col, float hei
 	h = height;
 	w = width;
 
-	active = true;
-
 	pos = Vector2D(columna  * w + WALL_WIDTH, fila  * h + WALL_WIDTH);
 
 	x = pos.getX();

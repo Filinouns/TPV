@@ -65,7 +65,8 @@ public:
 	void initObjects();
 	void deleteTextures();
 	void deleteObjects();
-	bool collides(const SDL_Rect& rect, const Vector2D& vel, Vector2D& collVector);
+	bool collidesBall(const SDL_Rect& rect, const Vector2D& vel, Vector2D& collVector);
+	bool collidesReward(const SDL_Rect& rect);
 	void createReward(const SDL_Rect& rect);
 
 	void pierdeVida();
@@ -86,5 +87,5 @@ protected:
 
 private:
 	BlockMap* blockMap;
-	list<ArkanoidObject*>::iterator mapIt, paddleIt, ballIt;
+	list<ArkanoidObject*>::iterator mapIt, paddleIt, ballIt, destroy;
 };

@@ -11,7 +11,8 @@ public:
 
 	virtual void loadFromFile();
 	virtual void saveToFile();
-	virtual SDL_Rect getRect();
+	virtual SDL_Rect getRect() { return destRect; }
+	bool getActive() { return active; }
 
 protected:
 	Vector2D pos;
@@ -23,6 +24,8 @@ protected:
 
 	Texture* texture = nullptr;
 	SDL_Renderer* renderer = nullptr;
+
+	bool active;
 
 private:
 };

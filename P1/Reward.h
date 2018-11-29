@@ -1,18 +1,26 @@
 #pragma once
 #include "MovingObject.h"
 
+class Game;
+
 class Reward : public MovingObject {
 public:
 	Reward() {};
-	Reward(SDL_Renderer* r, Texture* text, int x, int y, int row);
+	Reward(SDL_Renderer* r, Texture* text, int x, int y, int row, Game* g);
 	virtual ~Reward();
 
 	virtual void render();
 	virtual void update();
 
+	void setIt(list<ArkanoidObject*>::iterator i) { it = i; }
+	list<ArkanoidObject*>::iterator getIt() { return it; }
+
 protected:
 	int cont = 0;
 	int fRow, fCol;
-	Vector2D initVel = Vector2D(0, 1);
-};
 
+	Vector2D initVel = Vector2D(0, 1);
+
+	Game* game = nullptr;
+	list<ArkanoidObject*>::iterator it;
+};

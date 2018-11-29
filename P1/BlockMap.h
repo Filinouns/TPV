@@ -17,6 +17,7 @@ public:
 	Block* collides(const SDL_Rect& ballRect, const Vector2D& ballVel, Vector2D& collVector);
 	Block* blockAt(const Vector2D& p);
 	void ballHitsBlock(Block* b);
+
 protected:
 	Block*** map = nullptr;
 

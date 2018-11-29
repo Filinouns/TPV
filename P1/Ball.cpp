@@ -42,7 +42,7 @@ void Ball::update() {
 	Vector2D collVector;
 	Vector2D prevPos = pos;
 	
-	if (game->collides(destRect, vel, collVector)) {
+	if (game->collidesBall(destRect, vel, collVector)) {
 		if (!resp) {
 			vel = vel - (collVector * (2 * (vel*collVector)));
 			pos = prevPos + vel;

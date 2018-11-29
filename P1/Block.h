@@ -16,7 +16,6 @@ public:
 	virtual void render();
 
 	void setActive(bool a) { active = a; };
-	bool getActive() { return active; }
 
 protected:
 	Vector2D vColor = Vector2D(0, 0);
@@ -24,5 +23,4 @@ protected:
 	int color = 0;
 	int fila = 0;
 	int columna = 0;
-	bool active;
 };

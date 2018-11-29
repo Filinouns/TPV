@@ -9,7 +9,9 @@ public:
 	virtual void update();
 	virtual void render();
 	virtual void handleEvents(SDL_Event event);
-	bool collides(const SDL_Rect& r, Vector2D& collVector); //Comprobacion de choque con la pelota
+	bool collides(const SDL_Rect& r);
+	bool collidesBall(const SDL_Rect& r, Vector2D& collVector); //Comprobacion de choque con la pelota
+	bool collidesReward(const SDL_Rect& r);
 
 protected:
 	bool moveL, moveR;

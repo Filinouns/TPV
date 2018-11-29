@@ -1,7 +1,5 @@
 #pragma once
 #include "MovingObject.h"
-#include "Paddle.h"
-//#include "Game.h"
 
 class Game;
 

@@ -28,24 +28,36 @@ void Paddle::update() {
 	if (x < WALL_WIDTH + 5 || (x + w) > WIN_WIDTH - WALL_WIDTH - 10) vel.setX(0);
 }
 
-bool Paddle::collides(const SDL_Rect& r, Vector2D& collVector) {
-	float size = destRect.w/3;
+bool Paddle::collides(const SDL_Rect& r) {
 	bool hit = false;
 	if (r.x >= destRect.x && r.x <= destRect.x + destRect.w) {
 		if (r.y > destRect.y - destRect.h && r.y < destRect.y) {
 			hit = true;
-			collVector = { 0, 1 };
-			/*float precision = r.x - destRect.x;
-			if (precision <= destRect.w) {
-				if (precision > 2 * size) { //Lado der
-					collVector = { 1, 1 };
-				} else if (precision > size) { //Medio
-					collVector = { 0, 1 };
-				} else { //Lado izq
-					collVector = { -1, 1 };
-				}
-			}*/
 		}
+	}
+	return hit;
+}
+
+bool Paddle::collidesReward(const SDL_Rect& r) {
+	bool hit = collides(r);
+	return hit;
+}
+
+bool Paddle::collidesBall(const SDL_Rect& r, Vector2D& collVector) {
+	bool hit = collides(r);
+	if (hit) {
+		float size = destRect.w / 3;
+		collVector = { 0, 1 };
+		/*float precision = r.x - destRect.x;
+		if (precision <= destRect.w) {
+			if (precision > 2 * size) { //Lado der
+				collVector = { 1, 1 };
+			} else if (precision > size) { //Medio
+				collVector = { 0, 1 };
+			} else { //Lado izq
+				collVector = { -1, 1 };
+			}
+		}*/
 	}
 	return hit;
 }

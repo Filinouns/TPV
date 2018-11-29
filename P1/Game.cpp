@@ -62,7 +62,14 @@ void Game::run() {
 
 void Game::update() {
 	//Update de los objetos
-	for (auto it = objects.begin(); it != objects.end(); it++) static_cast<ArkanoidObject*>(*it)->update();
+	for (auto it = objects.begin(); it != objects.end(); it++) {
+		if (static_cast<ArkanoidObject*>(*it)->getActive()) static_cast<ArkanoidObject*>(*it)->update();
+		else {	//Aqui hacer la igualacion de iteradores para mas adelante en el 
+				//update ir eliminando los premios que sobran de la lista de objetos
+			//delete it;
+			//destroy = it;
+		}
+	}
 
 	//Comprobacion de victoria
 	if (static_cast<BlockMap*>(*mapIt)->getNumBlocks() == 0) {
@@ -100,7 +107,6 @@ void Game::render() const {
 	for (auto it = objects.begin(); it != objects.end(); it++) {
 		static_cast<ArkanoidObject*>(*it)->render();
 	}
-
 	SDL_RenderPresent(renderer);
 }
 
@@ -138,7 +144,7 @@ void Game::pierdeVida() {
 	}
 }
 
-bool Game::collides(const SDL_Rect& rect, const Vector2D& vel, Vector2D& collVector) {
+bool Game::collidesBall(const SDL_Rect& rect, const Vector2D& vel, Vector2D& collVector) {
 	bool c = false;
 
 	//Caso especial en caso de bug y que se salga de la pantalla, para poder seguir jugando(no se deberia llamar nunca)
@@ -179,18 +185,22 @@ bool Game::collides(const SDL_Rect& rect, const Vector2D& vel, Vector2D& collVec
 	//---------------
 
 	//Colisiones con paddle
-	if (static_cast<Paddle*>(*paddleIt)->collides(rect, collVector)) {
-		c = true;
-	}
+	if (static_cast<Paddle*>(*paddleIt)->collidesBall(rect, collVector)) c = true;
 
 	return c;
+}
+
+bool Game::collidesReward(const SDL_Rect &rect) {
+	bool b = static_cast<Paddle*>(*paddleIt)->collidesReward(rect);
+	return b;
 }
 
 void Game::createReward(const SDL_Rect &rect) {
 	int aux = rand() % REWARD_CHANCE;
 	if (aux == 0) {
 		int r = rand() % 8;
-		objects.push_back(new Reward(renderer, nTexturas[TReward], rect.x, rect.y, r));
+		objects.push_back(new Reward(renderer, nTexturas[TReward], rect.x, rect.y, r, this));
+		static_cast<Reward*>(objects.back())->setIt(--(objects.end()));
 	}
 }
 
