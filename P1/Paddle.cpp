@@ -1,6 +1,7 @@
 #include "Paddle.h"
 #include "Game.h"
 
+
 Paddle::Paddle(SDL_Renderer* r, Texture* text) : MovingObject(r, text) {
 	x = WIN_WIDTH / 2 - texture->getW() / 2;
 	y = WIN_HEIGHT - 100;

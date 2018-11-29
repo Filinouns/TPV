@@ -4,6 +4,10 @@
 #include <iostream>
 #include "Game.h"
 #include <Windows.h>
+#include <SDL_ttf.h>	//Para textos
+//#include "RewardX2.h"
+
+
 
 using namespace std;
 
@@ -15,6 +19,7 @@ Game::Game() {
 	initSDL();
 	initTextures(); //Iniciar texturas
 	initObjects();
+	
 }
 
 void Game::initSDL() {
@@ -25,6 +30,8 @@ void Game::initSDL() {
 	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 	if (window == nullptr || renderer == nullptr) cout << "Error cargando SDL" << endl;
 	//Las excepciones se deben lanzar con un throw, creando su clase respectiva para excepciones
+	
+	//TTF_Init();	//Para textos
 }
 
 void Game::initTextures() {
@@ -34,6 +41,12 @@ void Game::initTextures() {
 		nTexturas[i]->load(IMAGES_PATH + TEXT_ATT[i].nombre, TEXT_ATT[i].row, TEXT_ATT[i].col);
 		if (nTexturas[i] == nullptr) cout << "Error cargando la textura numero " + i << endl;
 	}
+
+	//TTF_Font* Sans = TTF_OpenFont("Sans.ttf", 24);
+	//SDL_Surface* surf = TTF_RenderText_Solid(Sans, text.c_str(), color);   //Para textos
+	//SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surf);
+	
+	
 }
 
 void Game::initObjects() { //Aqui los objetos del juego 
@@ -49,6 +62,8 @@ void Game::initObjects() { //Aqui los objetos del juego
 	objects.push_back(new Wall(renderer, nTexturas[TSide], POS_WALL_L_ROOF, false));
 	objects.push_back(new Wall(renderer, nTexturas[TSide], POS_WALL_R, false));
 	objects.push_back(new Wall(renderer, nTexturas[TTopSide], POS_WALL_L_ROOF, true));
+
+	
 }
 
 void Game::run() {
@@ -199,8 +214,8 @@ void Game::createReward(const SDL_Rect &rect) {
 	int aux = rand() % REWARD_CHANCE;
 	if (aux == 0) {
 		int r = rand() % 8;
-		objects.push_back(new Reward(renderer, nTexturas[TReward], rect.x, rect.y, r, this));
-		static_cast<Reward*>(objects.back())->setIt(--(objects.end()));
+		objects.push_back(new RewardX2(renderer, nTexturas[TReward], rect.x, rect.y, r, this));
+		static_cast<RewardX2*>(objects.back())->setIt(--(objects.end()));
 	}
 }
 

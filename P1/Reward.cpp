@@ -23,21 +23,6 @@ void Reward::render() {
 }
 
 void Reward::update() {
-	//Animacion
-	cont++;
-	if (cont > 10) {
-		fCol++;
-		cont = 0;
-	}
-	if (fCol > 7) fCol = 0;
-
-	//Posicion
-	pos = pos + vel;
-	x = pos.getX();
-	y = pos.getY();
-	destRect.x = x;
-	destRect.y = y;
-
-	// Colision/Destruccion
-	if (game->collidesReward(destRect) || pos.getY() > WIN_HEIGHT) active = false;
 }
+
+

@@ -8,7 +8,7 @@
 #include "Wall.h"
 #include "Paddle.h"
 #include "Ball.h"
-#include "Reward.h"
+#include "RewardX2.h"
 
 const uint NUM_TEXTURES = 6;
 const uint NUM_OBJECTS = 6;
@@ -17,6 +17,7 @@ const uint FRAME_RATE = 10;
 const uint WIN_WIDTH = 800;
 const uint WIN_HEIGHT = 600;
 const string IMAGES_PATH = "../images/";
+const string FONT = "";
 
 const uint WALL_WIDTH = 40;
 const uint PADDLE_MOVE = 5;

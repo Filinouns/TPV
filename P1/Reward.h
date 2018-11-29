@@ -11,6 +11,7 @@ public:
 
 	virtual void render();
 	virtual void update();
+	virtual void action() {};
 
 	void setIt(list<ArkanoidObject*>::iterator i) { it = i; }
 	list<ArkanoidObject*>::iterator getIt() { return it; }
@@ -23,4 +24,5 @@ protected:
 
 	Game* game = nullptr;
 	list<ArkanoidObject*>::iterator it;
+	
 };
