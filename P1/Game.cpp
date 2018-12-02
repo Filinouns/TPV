@@ -5,6 +5,9 @@
 #include "Game.h"
 #include <Windows.h>
 
+#include "SDLError.h"
+#include "FileNotFoundError.h"
+
 using namespace std;
 
 using uint = unsigned int;
@@ -20,33 +23,49 @@ Game::Game() {
 
 void Game::initSDL() {
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF); // Check Memory Leaks
-	SDL_Init(SDL_INIT_EVERYTHING);
-	window = SDL_CreateWindow("SDL ARKANOID", SDL_WINDOWPOS_CENTERED,
-		SDL_WINDOWPOS_CENTERED, WIN_WIDTH, WIN_HEIGHT, SDL_WINDOW_SHOWN);
-	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-	if (window == nullptr || renderer == nullptr) {}//throw SDLError("Error al cargar SLD");
-	
-	//TTF_Init();	//Para textos
+
+	if (SDL_Init(SDL_INIT_EVERYTHING) < 0) {
+		throw SDLError(SDL_GetError());
+		cout << "SDL could not initialize! \nSDL_Error: " << SDL_GetError() << '\n';
+	}
+	else {
+		window = SDL_CreateWindow("SDL ARKANOID", SDL_WINDOWPOS_CENTERED,
+			SDL_WINDOWPOS_CENTERED, WIN_WIDTH, WIN_HEIGHT, SDL_WINDOW_SHOWN);
+		if (window == nullptr) {
+			throw SDLError(SDL_GetError());
+			cout << "Window could not be created! \nSDL_Error: " << SDL_GetError() << '\n';
+		}
+		else {
+			renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+			if (renderer == nullptr) {
+				throw SDLError(SDL_GetError());
+				cout << "Renderer could not be created! \nSDL_Error: " << SDL_GetError() << '\n';
+			}
+		}
+	}
 }
 
 void Game::initTextures() {
-	//textures.resize(NUM_TEXTURES);
 	for (int i = 0; i < NUM_TEXTURES; i++) {
 		nTexturas[i] = new Texture(renderer);
 		nTexturas[i]->load(IMAGES_PATH + TEXT_ATT[i].nombre, TEXT_ATT[i].row, TEXT_ATT[i].col);
-		if (nTexturas[i] == nullptr) {}//throw FileNotFoundError("Error al cargar la textura numero: " + i);
+		if (nTexturas[i] == nullptr) {
+			throw SDLError(SDL_GetError());
+			cout << "Textures could not be created! \nSDL_Error: " << SDL_GetError() << '\n';
+		}
 	}
-
 	//TTF_Font* Sans = TTF_OpenFont("Sans.ttf", 24);
 	//SDL_Surface* surf = TTF_RenderText_Solid(Sans, text.c_str(), color);   //Para textos
 	//SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surf);
-	
-	
 }
 
 void Game::initObjects() { //Aqui los objetos del juego 
 	blockMap = new BlockMap(renderer, nTexturas[TBrick]);
 	blockMap->load(maps[Lv1]);
+	if (blockMap == nullptr) {
+		throw FileNotFoundError(SDL_GetError());
+		cout << "Map cannot be loaded! \nSDL_Error: " << SDL_GetError() << '\n';
+	}
 	objects.push_back(blockMap);
 	mapIt = --(objects.end());
 
@@ -210,7 +229,8 @@ bool Game::collidesReward(const SDL_Rect &rect) {
 }
 
 void Game::createReward(const SDL_Rect &rect) {
-	int aux = rand() % REWARD_CHANCE;
+	//int aux = rand() % REWARD_CHANCE;
+	int aux = 0;
 	if (aux == 0) {
 		int r = rand() % 4;
 		switch (r) {

@@ -4,5 +4,4 @@
 class FileNotFoundError : public ArkanoidError {
 public:
 	FileNotFoundError(const string& error) : ArkanoidError(error) {}
-	virtual ~FileNotFoundError();
 };
