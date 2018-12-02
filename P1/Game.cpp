@@ -60,15 +60,7 @@ void Game::initTextures() {
 }
 
 void Game::initObjects() { //Aqui los objetos del juego 
-	blockMap = new BlockMap(renderer, nTexturas[TBrick]);
-	blockMap->load(maps[level]);
-	if (blockMap == nullptr) {
-		throw FileNotFoundError(SDL_GetError());
-		cout << "Map cannot be loaded! \nSDL_Error: " << SDL_GetError() << '\n';
-	}
-	objects.push_back(blockMap);
-	mapIt = --(objects.end());
-
+	initMap();
 	objects.push_back(new Ball(renderer, nTexturas[TBall], this));
 	ballIt = --(objects.end());
 	objects.push_back(new Paddle(renderer, nTexturas[TPaddle], this));
@@ -77,6 +69,17 @@ void Game::initObjects() { //Aqui los objetos del juego
 	objects.push_back(new Wall(renderer, nTexturas[TSide], POS_WALL_R, false));
 	objects.push_back(new Wall(renderer, nTexturas[TTopSide], POS_WALL_L_ROOF, true));
 	lastIt = --(objects.end());
+}
+
+void Game::initMap() {
+	blockMap = new BlockMap(renderer, nTexturas[TBrick]);
+	blockMap->load(maps[level]);
+	if (blockMap == nullptr) {
+		throw FileNotFoundError(SDL_GetError());
+		cout << "Map cannot be loaded! \nSDL_Error: " << SDL_GetError() << '\n';
+	}
+	objects.push_front(blockMap);
+	mapIt = objects.begin();
 }
 
 void Game::run() {
@@ -102,21 +105,25 @@ void Game::update() {
 	}
 	
 	//Comprobacion de no mas bloques
-	if (static_cast<BlockMap*>(*mapIt)->getNumBlocks() == 0) {
-		nextLevel();
-	}
+	if (static_cast<BlockMap*>(*mapIt)->getNumBlocks() == 0) nextLevel();
 	if (nivel) nextLevel();
 	if (level > 2) win = true;
 }
 
-void Game::nextLevel() {
+void Game::nextLevel() { //Siguiente nivel
 	nivel = false;
 	level++;
 
-	static_cast<BlockMap*>(*mapIt)->load(maps[level]);
+	//Eliminamos el mapa que sino se queda basura, no se como hacerlo mejor jeje
+	delete *mapIt;
+	objects.pop_front();
+	initMap();
+
+	// Reespauneamos la bola y el paddle
 	static_cast<Ball*>(*ballIt)->respawn();
 	static_cast<Paddle*>(*paddleIt)->respawn();
 
+	// Eliminamos los premios sobrantes
 	auto it = ++lastIt;
 	while (it != objects.end()) {
 		auto next = it;
@@ -126,6 +133,7 @@ void Game::nextLevel() {
 		it = next;
 	}
 
+	// Actualizamos el ultimo iterador de nuevo para que apunte al ultimo objeto del juego que no sea un reward
 	lastIt = --(objects.end());
 }
 
@@ -164,16 +172,10 @@ void Game::handleEvents() {
 	}
 }
 
-void Game::addLife() {
-	vidas++;
-}
-
 void Game::pierdeVida() {
 	vidas--;
 	static_cast<Ball*>(*ballIt)->respawn();
-	if (vidas == 0) {
-		exit = true;
-	}
+	if (vidas == 0) exit = true;
 }
 
 bool Game::collidesBall(const SDL_Rect& rect, const Vector2D& vel, Vector2D& collVector) {

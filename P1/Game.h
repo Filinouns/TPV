@@ -68,6 +68,7 @@ public:
 	
 	void initTextures();
 	void initObjects();
+	void initMap();
 	void deleteTextures();
 	void deleteObjects();
 	bool collidesBall(const SDL_Rect& rect, const Vector2D& vel, Vector2D& collVector);
@@ -75,7 +76,7 @@ public:
 	void createReward(const SDL_Rect& rect);
 	void powerUp(int type);
 
-	void addLife();
+	void addLife() { vidas++; }
 	void pierdeVida();
 	void nextLevel();
 	void setLevel(bool b) { nivel = b; }
