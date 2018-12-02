@@ -28,7 +28,8 @@ void BlockMap::load(const string& filename) {
 		map[i] = new Block*[col];
 	}
 
-	h = (WIN_HEIGHT / 2) / row;
+	//(Javi) En mi ordenador peta aqui al terminar el ultimo nivel, debe hacer el load antes que win = true porque row es 0 :(
+	h = (WIN_HEIGHT / 2) / row;	
 	w = WIN_WIDTH / col - ((2*WALL_WIDTH) / col);
 
 	for (int i = 0; i < row; i++) {

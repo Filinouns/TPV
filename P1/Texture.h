@@ -5,6 +5,7 @@
 #include "SDL_image.h" // Windows
 #include "checkML.h"
 #include <string>
+#include "SDL_ttf.h"
 
 using namespace std;
 
@@ -35,6 +36,7 @@ public:
 	void load(string filename, uint numRows = 1, uint numCols = 1);
 	void render(const SDL_Rect& rect, SDL_RendererFlip flip = SDL_FLIP_NONE) const;
 	void renderFrame(const SDL_Rect& destRect, int row, int col, int angle = 0, SDL_RendererFlip flip = SDL_FLIP_NONE) const;
+	void loadFont(SDL_Renderer* pRenderer, TTF_Font* font, const char* msn, SDL_Color color);
 };
 
 #endif

@@ -99,4 +99,7 @@ private:
 	BlockMap* blockMap;
 	list<ArkanoidObject*>::iterator mapIt, paddleIt, ballIt, lastIt;
 	bool nivel = false;
+	Texture* tScore;
+	SDL_Color white = { 255, 255, 255 }; //The color of the font
+	TTF_Font* font;
 };

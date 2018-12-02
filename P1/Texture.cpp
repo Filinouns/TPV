@@ -1,5 +1,7 @@
 #include "Texture.h"
 #include <iostream>
+#include "SDL_ttf.h"
+#include "SDLError.h"
 
 using namespace std;
 
@@ -38,4 +40,20 @@ void Texture::renderFrame(const SDL_Rect& destRect, int row, int col, int angle,
 	srcRect.w = fw;
 	srcRect.h = fh;
 	SDL_RenderCopyEx(renderer, texture, &srcRect, &destRect, angle, 0, flip);
+}
+
+void Texture::loadFont(SDL_Renderer* pRenderer, TTF_Font* font, const char* msn, SDL_Color color) {
+	SDL_Surface* pTempSurface = nullptr;
+
+	pTempSurface = TTF_RenderText_Solid(font, msn, color);
+	if (pTempSurface == nullptr) {
+		throw SDLError(TTF_GetError());
+
+	}
+	else {
+		texture = SDL_CreateTextureFromSurface(pRenderer, pTempSurface);
+		SDL_FreeSurface(pTempSurface);
+		w = pTempSurface->w;
+		h = pTempSurface->h;
+	}
 }

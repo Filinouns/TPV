@@ -4,9 +4,10 @@
 #include <iostream>
 #include "Game.h"
 #include <Windows.h>
-
+#include <sstream>
 #include "SDLError.h"
 #include "FileNotFoundError.h"
+#include "SDL_ttf.h"
 
 using namespace std;
 
@@ -14,10 +15,13 @@ using uint = unsigned int;
 uint startTime = SDL_GetTicks();
 uint frameTime;
 
+
 Game::Game() {
 	initSDL();
 	initTextures(); //Iniciar texturas
 	initObjects();
+
+	
 	
 }
 
@@ -43,6 +47,11 @@ void Game::initSDL() {
 			}
 		}
 	}
+	if (TTF_Init() < 0)
+	{
+		throw SDLError("Error al cargar la librería TTF");
+	}
+	
 }
 
 void Game::initTextures() {
@@ -54,6 +63,12 @@ void Game::initTextures() {
 			cout << "Textures could not be created! \nSDL_Error: " << SDL_GetError() << '\n';
 		}
 	}
+
+	tScore = new Texture(renderer);
+	font = TTF_OpenFont("../images/pixel.ttf", 20);
+	if (font == nullptr)
+		throw SDLError(TTF_GetError());
+
 	//TTF_Font* Sans = TTF_OpenFont("Sans.ttf", 24);
 	//SDL_Surface* surf = TTF_RenderText_Solid(Sans, text.c_str(), color);   //Para textos
 	//SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surf);
@@ -143,6 +158,20 @@ void Game::render() const {
 	for (auto it = objects.begin(); it != objects.end(); it++) {
 		static_cast<ArkanoidObject*>(*it)->render();
 	}
+
+	//Dibujado de la puntuacion
+	stringstream strm;
+	strm << "Score: " << puntuacion;
+	tScore->loadFont(renderer, font, strm.str().c_str(), white);
+
+	SDL_Rect scoreRect; 
+	scoreRect.x = (WIN_WIDTH / 2) - 50;  
+	scoreRect.y = -5; 
+	scoreRect.w = 100; 
+	scoreRect.h = 50; 
+
+	tScore->render(scoreRect);
+
 	SDL_RenderPresent(renderer);
 }
 
