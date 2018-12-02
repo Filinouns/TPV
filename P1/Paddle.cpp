@@ -78,11 +78,18 @@ void Paddle::powerUp(int type) {
 		game->addLife();
 		break;
 	case 3: //Pasar nivel
-		game->nextLevel();
+		game->setLevel(true);
 		break;
 	default:
 		break;
 	}
+}
+
+void Paddle::respawn() {
+	x = WIN_WIDTH / 2 - texture->getW() / 2;
+	y = WIN_HEIGHT - 100;
+	destRect.x = x;
+	destRect.y = y;
 }
 
 void Paddle::handleEvents(SDL_Event event) {

@@ -78,6 +78,8 @@ public:
 	void addLife();
 	void pierdeVida();
 	void nextLevel();
+	void setLevel(bool b) { nivel = b; }
+
 protected:
 	SDL_Window* window = nullptr;
 	SDL_Renderer* renderer = nullptr;
@@ -85,7 +87,7 @@ protected:
 	//Aqui punteros a las clases de objetos
 	bool exit = false, win = false;
 	int vidas = 3;
-	int level = 1;
+	int level = 0;
 	int puntuacion = 0;
 
 	//Intentar crear listas de objetos y texturas con iteradores para recorrerlas
@@ -94,5 +96,6 @@ protected:
 
 private:
 	BlockMap* blockMap;
-	list<ArkanoidObject*>::iterator mapIt, paddleIt, ballIt, destroy;
+	list<ArkanoidObject*>::iterator mapIt, paddleIt, ballIt, lastIt;
+	bool nivel = false;
 };

@@ -13,6 +13,7 @@ public:
 	virtual void saveToFile();
 	virtual SDL_Rect getRect() { return destRect; }
 	bool getActive() { return active; }
+	void setActive(bool a) { active = a; }
 
 protected:
 	Vector2D pos;
@@ -26,6 +27,5 @@ protected:
 	SDL_Renderer* renderer = nullptr;
 
 	bool active;
-
 private:
 };

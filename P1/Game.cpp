@@ -61,7 +61,7 @@ void Game::initTextures() {
 
 void Game::initObjects() { //Aqui los objetos del juego 
 	blockMap = new BlockMap(renderer, nTexturas[TBrick]);
-	blockMap->load(maps[Lv1]);
+	blockMap->load(maps[level]);
 	if (blockMap == nullptr) {
 		throw FileNotFoundError(SDL_GetError());
 		cout << "Map cannot be loaded! \nSDL_Error: " << SDL_GetError() << '\n';
@@ -76,6 +76,7 @@ void Game::initObjects() { //Aqui los objetos del juego
 	objects.push_back(new Wall(renderer, nTexturas[TSide], POS_WALL_L_ROOF, false));
 	objects.push_back(new Wall(renderer, nTexturas[TSide], POS_WALL_R, false));
 	objects.push_back(new Wall(renderer, nTexturas[TTopSide], POS_WALL_L_ROOF, true));
+	lastIt = --(objects.end());
 }
 
 void Game::run() {
@@ -100,34 +101,32 @@ void Game::update() {
 		it = next;
 	}
 	
-	//Comprobacion de victoria
+	//Comprobacion de no mas bloques
 	if (static_cast<BlockMap*>(*mapIt)->getNumBlocks() == 0) {
 		nextLevel();
-		if (level > 3) win = true;
 	}
+	if (nivel) nextLevel();
+	if (level > 2) win = true;
 }
 
 void Game::nextLevel() {
+	nivel = false;
 	level++;
 
-	if (level > NUM_MAPS) level = 1;
+	static_cast<BlockMap*>(*mapIt)->load(maps[level]);
+	static_cast<Ball*>(*ballIt)->respawn();
+	static_cast<Paddle*>(*paddleIt)->respawn();
 
-	switch (level) {
-	case 1:
-		static_cast<BlockMap*>(*mapIt)->load(maps[Lv1]);
-		break;
-	case 2:
-		static_cast<BlockMap*>(*mapIt)->load(maps[Lv2]);
-		break;
-	case 3:
-		static_cast<BlockMap*>(*mapIt)->load(maps[Lv3]);
-		break;
-	default:
-		static_cast<BlockMap*>(*mapIt)->load(maps[Lv1]);
-		break;
+	auto it = ++lastIt;
+	while (it != objects.end()) {
+		auto next = it;
+		++next;
+		killObjects.push_back(*it);
+		objects.remove(*it);
+		it = next;
 	}
 
-	static_cast<Ball*>(*ballIt)->respawn();
+	lastIt = --(objects.end());
 }
 
 void Game::render() const {
