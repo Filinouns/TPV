@@ -3,7 +3,6 @@
 
 class FileFormatError : public ArkanoidError {
 public:
-	FileFormatError(string error);
+	FileFormatError(const string& error) : ArkanoidError(error) {}
 	virtual ~FileFormatError();
 };
-

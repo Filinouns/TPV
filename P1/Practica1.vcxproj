@@ -73,7 +73,10 @@
     <Import Project="..\ProyectosSDL.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LibraryPath>C:\Users\andre\Desktop\Universidad\2.Cuarto\TPV\1 cuatri\Proyectos\ProyectosSDL\SDL2_ttf-2.0.14\lib\x86;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Users\andre\Desktop\Universidad\2.Cuarto\TPV\1 cuatri\Proyectos\ProyectosSDL\SDL2_ttf-2.0.14\include;$(IncludePath)</IncludePath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -81,6 +84,9 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
+    <Link>
+      <AdditionalDependencies>SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -119,20 +125,20 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="ArkanoidError.cpp" />
     <ClCompile Include="ArkanoidObject.cpp" />
     <ClCompile Include="Ball.cpp" />
     <ClCompile Include="Block.cpp" />
     <ClCompile Include="BlockMap.cpp" />
-    <ClCompile Include="FileFormatError.cpp" />
-    <ClCompile Include="FileNotFoundError.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="MovingObject.cpp" />
     <ClCompile Include="Paddle.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Reward.cpp" />
-    <ClCompile Include="SDLError.cpp" />
+    <ClCompile Include="RewardX1.cpp" />
+    <ClCompile Include="RewardX2.cpp" />
+    <ClCompile Include="RewardX3.cpp" />
+    <ClCompile Include="RewardX4.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Vector2D.cpp" />
     <ClCompile Include="Wall.cpp" />
@@ -150,6 +156,10 @@
     <ClInclude Include="Paddle.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Reward.h" />
+    <ClInclude Include="RewardX1.h" />
+    <ClInclude Include="RewardX2.h" />
+    <ClInclude Include="RewardX3.h" />
+    <ClInclude Include="RewardX4.h" />
     <ClInclude Include="SDLError.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Vector2D.h" />

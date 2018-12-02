@@ -18,7 +18,7 @@ int main(int argc, char* argv[]) {
 		delete game;
 	}
 	catch (string& error) {
-		cout << "error" << endl;
+		cout << error << endl;
 	}
 	return 0;
 }

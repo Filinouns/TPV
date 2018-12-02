@@ -15,6 +15,7 @@ Game::Game() {
 	initSDL();
 	initTextures(); //Iniciar texturas
 	initObjects();
+	
 }
 
 void Game::initSDL() {
@@ -23,8 +24,9 @@ void Game::initSDL() {
 	window = SDL_CreateWindow("SDL ARKANOID", SDL_WINDOWPOS_CENTERED,
 		SDL_WINDOWPOS_CENTERED, WIN_WIDTH, WIN_HEIGHT, SDL_WINDOW_SHOWN);
 	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-	if (window == nullptr || renderer == nullptr) cout << "Error cargando SDL" << endl;
-	//Las excepciones se deben lanzar con un throw, creando su clase respectiva para excepciones
+	if (window == nullptr || renderer == nullptr) {}//throw SDLError("Error al cargar SLD");
+	
+	//TTF_Init();	//Para textos
 }
 
 void Game::initTextures() {
@@ -32,8 +34,14 @@ void Game::initTextures() {
 	for (int i = 0; i < NUM_TEXTURES; i++) {
 		nTexturas[i] = new Texture(renderer);
 		nTexturas[i]->load(IMAGES_PATH + TEXT_ATT[i].nombre, TEXT_ATT[i].row, TEXT_ATT[i].col);
-		if (nTexturas[i] == nullptr) cout << "Error cargando la textura numero " + i << endl;
+		if (nTexturas[i] == nullptr) {}//throw FileNotFoundError("Error al cargar la textura numero: " + i);
 	}
+
+	//TTF_Font* Sans = TTF_OpenFont("Sans.ttf", 24);
+	//SDL_Surface* surf = TTF_RenderText_Solid(Sans, text.c_str(), color);   //Para textos
+	//SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surf);
+	
+	
 }
 
 void Game::initObjects() { //Aqui los objetos del juego 
@@ -44,7 +52,7 @@ void Game::initObjects() { //Aqui los objetos del juego
 
 	objects.push_back(new Ball(renderer, nTexturas[TBall], this));
 	ballIt = --(objects.end());
-	objects.push_back(new Paddle(renderer, nTexturas[TPaddle]));
+	objects.push_back(new Paddle(renderer, nTexturas[TPaddle], this));
 	paddleIt = --(objects.end());
 	objects.push_back(new Wall(renderer, nTexturas[TSide], POS_WALL_L_ROOF, false));
 	objects.push_back(new Wall(renderer, nTexturas[TSide], POS_WALL_R, false));
@@ -61,16 +69,18 @@ void Game::run() {
 }
 
 void Game::update() {
-	//Update de los objetos
-	for (auto it = objects.begin(); it != objects.end(); it++) {
+	auto it = objects.begin();
+	while (it != objects.end()) {
+		auto next = it;
+		++next;
 		if (static_cast<ArkanoidObject*>(*it)->getActive()) static_cast<ArkanoidObject*>(*it)->update();
-		else {	//Aqui hacer la igualacion de iteradores para mas adelante en el 
-				//update ir eliminando los premios que sobran de la lista de objetos
-			//delete it;
-			//destroy = it;
+		else {
+			killObjects.push_back(*it);
+			objects.remove(*it);
 		}
+		it = next;
 	}
-
+	
 	//Comprobacion de victoria
 	if (static_cast<BlockMap*>(*mapIt)->getNumBlocks() == 0) {
 		nextLevel();
@@ -131,9 +141,13 @@ void Game::handleEvents() {
 		default:
 			break;
 		}
-		//Eventos de cada obejeto
+		//Eventos de cada objeto
 		static_cast<Paddle*>(*paddleIt)->handleEvents(event);
 	}
+}
+
+void Game::addLife() {
+	vidas++;
 }
 
 void Game::pierdeVida() {
@@ -198,10 +212,32 @@ bool Game::collidesReward(const SDL_Rect &rect) {
 void Game::createReward(const SDL_Rect &rect) {
 	int aux = rand() % REWARD_CHANCE;
 	if (aux == 0) {
-		int r = rand() % 8;
-		objects.push_back(new Reward(renderer, nTexturas[TReward], rect.x, rect.y, r, this));
-		static_cast<Reward*>(objects.back())->setIt(--(objects.end()));
+		int r = rand() % 4;
+		switch (r) {
+		case 0:
+			objects.push_back(new RewardX1(renderer, nTexturas[TReward], rect.x, rect.y, this));
+			static_cast<RewardX1*>(objects.back())->setIt(--(objects.end()));
+			break;
+		case 1:
+			objects.push_back(new RewardX2(renderer, nTexturas[TReward], rect.x, rect.y, this));
+			static_cast<RewardX2*>(objects.back())->setIt(--(objects.end()));
+			break;
+		case 2:
+			objects.push_back(new RewardX3(renderer, nTexturas[TReward], rect.x, rect.y, this));
+			static_cast<RewardX3*>(objects.back())->setIt(--(objects.end()));
+			break;
+		case 3:
+			objects.push_back(new RewardX4(renderer, nTexturas[TReward], rect.x, rect.y, this));
+			static_cast<RewardX4*>(objects.back())->setIt(--(objects.end()));
+			break;
+		default:
+			break;
+		}
 	}
+}
+
+void Game::powerUp(int type) {
+	static_cast<Paddle*>(*paddleIt)->powerUp(type);
 }
 
 Game::~Game() {
@@ -226,6 +262,10 @@ void Game::deleteTextures() {
 
 void Game::deleteObjects() {
 	for (auto i : objects) {
+		delete i;
+		i = nullptr;
+	}
+	for (auto i : killObjects) {
 		delete i;
 		i = nullptr;
 	}

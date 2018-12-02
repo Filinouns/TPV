@@ -22,9 +22,6 @@
     <Filter Include="Archivos de encabezado\Error">
       <UniqueIdentifier>{6a649ed2-d7bf-46f6-9480-68dd1872cc4e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Archivos de origen\Error">
-      <UniqueIdentifier>{4cf7c135-5b39-46db-80a2-c1c6ce147333}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Archivos de origen\Objetos\Rewards">
       <UniqueIdentifier>{38e681f7-dac9-494e-b39c-33f1f461dc74}</UniqueIdentifier>
     </Filter>
@@ -69,19 +66,19 @@
     <ClCompile Include="MovingObject.cpp">
       <Filter>Archivos de origen\Objetos</Filter>
     </ClCompile>
-    <ClCompile Include="ArkanoidError.cpp">
-      <Filter>Archivos de origen\Error</Filter>
-    </ClCompile>
-    <ClCompile Include="SDLError.cpp">
-      <Filter>Archivos de origen\Error</Filter>
-    </ClCompile>
-    <ClCompile Include="FileNotFoundError.cpp">
-      <Filter>Archivos de origen\Error</Filter>
-    </ClCompile>
-    <ClCompile Include="FileFormatError.cpp">
-      <Filter>Archivos de origen\Error</Filter>
-    </ClCompile>
     <ClCompile Include="Reward.cpp">
+      <Filter>Archivos de origen\Objetos\Rewards</Filter>
+    </ClCompile>
+    <ClCompile Include="RewardX2.cpp">
+      <Filter>Archivos de origen\Objetos\Rewards</Filter>
+    </ClCompile>
+    <ClCompile Include="RewardX1.cpp">
+      <Filter>Archivos de origen\Objetos\Rewards</Filter>
+    </ClCompile>
+    <ClCompile Include="RewardX3.cpp">
+      <Filter>Archivos de origen\Objetos\Rewards</Filter>
+    </ClCompile>
+    <ClCompile Include="RewardX4.cpp">
       <Filter>Archivos de origen\Objetos\Rewards</Filter>
     </ClCompile>
   </ItemGroup>
@@ -128,10 +125,22 @@
     <ClInclude Include="FileFormatError.h">
       <Filter>Archivos de encabezado\Error</Filter>
     </ClInclude>
-    <ClInclude Include="FileNotFoundError.h">
-      <Filter>Archivos de encabezado\Objetos</Filter>
-    </ClInclude>
     <ClInclude Include="Reward.h">
+      <Filter>Archivos de encabezado\Objetos\Rewards</Filter>
+    </ClInclude>
+    <ClInclude Include="RewardX2.h">
+      <Filter>Archivos de encabezado\Objetos\Rewards</Filter>
+    </ClInclude>
+    <ClInclude Include="FileNotFoundError.h">
+      <Filter>Archivos de encabezado\Error</Filter>
+    </ClInclude>
+    <ClInclude Include="RewardX1.h">
+      <Filter>Archivos de encabezado\Objetos\Rewards</Filter>
+    </ClInclude>
+    <ClInclude Include="RewardX3.h">
+      <Filter>Archivos de encabezado\Objetos\Rewards</Filter>
+    </ClInclude>
+    <ClInclude Include="RewardX4.h">
       <Filter>Archivos de encabezado\Objetos\Rewards</Filter>
     </ClInclude>
   </ItemGroup>

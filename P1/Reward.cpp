@@ -1,8 +1,7 @@
 #include "Reward.h"
 #include "Game.h"
 
-Reward::Reward(SDL_Renderer* r, Texture* text, int x, int y, int row, Game* g) : MovingObject(r, text) {
-	fRow = row;
+Reward::Reward(SDL_Renderer* r, Texture* text, int x, int y, Game* g) : MovingObject(r, text) {
 	fCol = 0;
 	game = g;
 
@@ -23,7 +22,6 @@ void Reward::render() {
 }
 
 void Reward::update() {
-	//Animacion
 	cont++;
 	if (cont > 10) {
 		fCol++;
@@ -39,5 +37,15 @@ void Reward::update() {
 	destRect.y = y;
 
 	// Colision/Destruccion
-	if (game->collidesReward(destRect) || pos.getY() > WIN_HEIGHT) active = false;
+	action();
+}
+
+void Reward::action() {
+	if (game->collidesReward(destRect)) {
+		active = false;
+		game->powerUp(type);
+	}
+	else if (pos.getY() > WIN_HEIGHT) {
+		active = false;
+	}
 }

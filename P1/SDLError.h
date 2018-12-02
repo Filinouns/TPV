@@ -3,7 +3,6 @@
 
 class SDLError : public ArkanoidError {
 public:
-	SDLError(string error);
+	SDLError(const string& error) : ArkanoidError(error) {}
 	virtual ~SDLError();
-
 };

@@ -6,11 +6,12 @@ class Game;
 class Reward : public MovingObject {
 public:
 	Reward() {};
-	Reward(SDL_Renderer* r, Texture* text, int x, int y, int row, Game* g);
+	Reward(SDL_Renderer* r, Texture* text, int x, int y, Game* g);
 	virtual ~Reward();
 
 	virtual void render();
 	virtual void update();
+	virtual void action();
 
 	void setIt(list<ArkanoidObject*>::iterator i) { it = i; }
 	list<ArkanoidObject*>::iterator getIt() { return it; }
@@ -18,6 +19,7 @@ public:
 protected:
 	int cont = 0;
 	int fRow, fCol;
+	int type;
 
 	Vector2D initVel = Vector2D(0, 1);
 

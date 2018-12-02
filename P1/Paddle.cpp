@@ -1,7 +1,9 @@
 #include "Paddle.h"
 #include "Game.h"
 
-Paddle::Paddle(SDL_Renderer* r, Texture* text) : MovingObject(r, text) {
+Paddle::Paddle(SDL_Renderer* r, Texture* text, Game* g) : MovingObject(r, text) {
+	game = g;
+
 	x = WIN_WIDTH / 2 - texture->getW() / 2;
 	y = WIN_HEIGHT - 100;
 	h = texture->getH();
@@ -22,10 +24,10 @@ void Paddle::render() {
 	texture->renderFrame(destRect, 0, 0);
 }
 
-void Paddle::update() {
+void Paddle::update() { //Revisar laterales
 	destRect.x += vel.getX();
 	x = destRect.x;
-	if (x < WALL_WIDTH + 5 || (x + w) > WIN_WIDTH - WALL_WIDTH - 10) vel.setX(0);
+	if (x < WALL_WIDTH + 5 || (x + destRect.w) > WIN_WIDTH - WALL_WIDTH - 10) vel.setX(0);
 }
 
 bool Paddle::collides(const SDL_Rect& r) {
@@ -60,6 +62,27 @@ bool Paddle::collidesBall(const SDL_Rect& r, Vector2D& collVector) {
 		}*/
 	}
 	return hit;
+}
+
+void Paddle::powerUp(int type) {
+	switch (type) {
+	case 0: //Alargar
+		destRect.w = w;
+		destRect.w *= 1.5;
+		break;
+	case 1: //Acortar
+		destRect.w = w;
+		destRect.w *= 0.75;
+		break;
+	case 2: //Vida extra
+		game->addLife();
+		break;
+	case 3: //Pasar nivel
+		game->nextLevel();
+		break;
+	default:
+		break;
+	}
 }
 
 void Paddle::handleEvents(SDL_Event event) {
