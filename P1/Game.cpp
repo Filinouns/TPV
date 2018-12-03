@@ -88,6 +88,7 @@ void Game::initObjects() { //Aqui los objetos del juego
 
 void Game::initMap() {
 	blockMap = new BlockMap(renderer, nTexturas[TBrick]);
+	if (level < 3)
 	blockMap->load(maps[level]);
 	if (blockMap == nullptr) {
 		throw FileNotFoundError(SDL_GetError());
@@ -107,6 +108,11 @@ void Game::run() {
 }
 
 void Game::update() {
+	//Comprobacion de no mas bloques
+	if (static_cast<BlockMap*>(*mapIt)->getNumBlocks() == 0) nextLevel();
+	if (nivel) nextLevel();
+	if (level > 2) win = true;
+
 	auto it = objects.begin();
 	while (it != objects.end()) {
 		auto next = it;
@@ -119,10 +125,7 @@ void Game::update() {
 		it = next;
 	}
 	
-	//Comprobacion de no mas bloques
-	if (static_cast<BlockMap*>(*mapIt)->getNumBlocks() == 0) nextLevel();
-	if (nivel) nextLevel();
-	if (level > 2) win = true;
+
 }
 
 void Game::nextLevel() { //Siguiente nivel
@@ -308,6 +311,8 @@ void Game::deleteTextures() {
 		delete i;
 		i = nullptr;
 	}
+	delete tScore;
+	tScore = nullptr;
 }
 
 void Game::deleteObjects() {
