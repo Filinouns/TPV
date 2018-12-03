@@ -63,3 +63,14 @@ void Ball::update() {
 	destRect.x = x;
 	destRect.y = y;
 }
+
+void Ball::saveToFile(ofstream& f) {
+	pos.setX(destRect.x);
+	pos.setY(destRect.y);
+
+	f << pos.getX() << " " << pos.getY() << " " << vel.getX() << " " << vel.getY() << " ";
+}
+
+void Ball::loadFromFile() {
+
+}

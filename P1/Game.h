@@ -22,6 +22,7 @@ const uint WIN_WIDTH = 800;
 const uint WIN_HEIGHT = 600;
 const string IMAGES_PATH = "../images/";
 const string FONT = "";
+const string SAVEFILE = "../images/save.ark";
 
 const uint WALL_WIDTH = 40;
 const uint PADDLE_MOVE = 5;
@@ -81,6 +82,9 @@ public:
 	void nextLevel();
 	void setLevel(bool b) { nivel = b; }
 
+	void save(const string& filename);
+	void load();
+
 protected:
 	SDL_Window* window = nullptr;
 	SDL_Renderer* renderer = nullptr;
@@ -98,8 +102,10 @@ protected:
 private:
 	BlockMap* blockMap;
 	list<ArkanoidObject*>::iterator mapIt, paddleIt, ballIt, lastIt;
-	bool nivel = false;
+	bool nivel = false, saveState = false;
 	Texture* tScore;
 	SDL_Color white = { 255, 255, 255 }; //The color of the font
 	TTF_Font* font;
+
+	int numCodes = 0, code = 0;
 };

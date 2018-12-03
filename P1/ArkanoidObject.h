@@ -10,7 +10,7 @@ public:
 	virtual ~ArkanoidObject();
 
 	virtual void loadFromFile();
-	virtual void saveToFile();
+	virtual void saveToFile(ofstream& f) {}
 	virtual SDL_Rect getRect() { return destRect; }
 	bool getActive() { return active; }
 	void setActive(bool a) { active = a; }

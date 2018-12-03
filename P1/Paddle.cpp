@@ -116,3 +116,14 @@ void Paddle::handleEvents(SDL_Event event) {
 			break;
 	}
 }
+
+void Paddle::loadFromFile() {
+
+}
+
+void Paddle::saveToFile(ofstream& f) {
+	pos.setX(destRect.x);
+	pos.setY(destRect.y);
+
+	f << pos.getX();
+}

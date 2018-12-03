@@ -7,7 +7,7 @@
 #include <sstream>
 #include "SDLError.h"
 #include "FileNotFoundError.h"
-#include "SDL_ttf.h"
+
 
 using namespace std;
 
@@ -15,14 +15,10 @@ using uint = unsigned int;
 uint startTime = SDL_GetTicks();
 uint frameTime;
 
-
 Game::Game() {
 	initSDL();
 	initTextures(); //Iniciar texturas
 	initObjects();
-
-	
-	
 }
 
 void Game::initSDL() {
@@ -47,11 +43,7 @@ void Game::initSDL() {
 			}
 		}
 	}
-	if (TTF_Init() < 0)
-	{
-		throw SDLError("Error al cargar la librería TTF");
-	}
-	
+	if (TTF_Init() < 0)	throw SDLError("Error al cargar la librería TTF");
 }
 
 void Game::initTextures() {
@@ -66,8 +58,7 @@ void Game::initTextures() {
 
 	tScore = new Texture(renderer);
 	font = TTF_OpenFont("../images/pixel.ttf", 20);
-	if (font == nullptr)
-		throw SDLError(TTF_GetError());
+	if (font == nullptr) throw SDLError(TTF_GetError());
 
 	//TTF_Font* Sans = TTF_OpenFont("Sans.ttf", 24);
 	//SDL_Surface* surf = TTF_RenderText_Solid(Sans, text.c_str(), color);   //Para textos
@@ -88,8 +79,7 @@ void Game::initObjects() { //Aqui los objetos del juego
 
 void Game::initMap() {
 	blockMap = new BlockMap(renderer, nTexturas[TBrick]);
-	if (level < 3)
-	blockMap->load(maps[level]);
+	if (level < 3) blockMap->load(maps[level]);
 	if (blockMap == nullptr) {
 		throw FileNotFoundError(SDL_GetError());
 		cout << "Map cannot be loaded! \nSDL_Error: " << SDL_GetError() << '\n';
@@ -100,10 +90,16 @@ void Game::initMap() {
 
 void Game::run() {
 	while (!exit && !win) {
-		handleEvents();
-		update();
-		render();
-		Sleep(FRAME_RATE);
+		if (!saveState) {
+			handleEvents();
+			update();
+			render();
+			Sleep(FRAME_RATE);
+		}
+		else {
+			save(SAVEFILE);
+			exit = true;
+		}
 	}
 }
 
@@ -124,8 +120,6 @@ void Game::update() {
 		}
 		it = next;
 	}
-	
-
 }
 
 void Game::nextLevel() { //Siguiente nivel
@@ -191,6 +185,9 @@ void Game::handleEvents() {
 				break;
 			case SDLK_c:
 				nextLevel();
+				break;
+			case SDLK_p:
+				saveState = true;
 				break;
 			default:
 				break;
@@ -262,8 +259,7 @@ bool Game::collidesReward(const SDL_Rect &rect) {
 }
 
 void Game::createReward(const SDL_Rect &rect) {
-	//int aux = rand() % REWARD_CHANCE;
-	int aux = 0;
+	int aux = rand() % REWARD_CHANCE;
 	if (aux == 0) {
 		int r = rand() % 4;
 		switch (r) {
@@ -291,6 +287,38 @@ void Game::createReward(const SDL_Rect &rect) {
 
 void Game::powerUp(int type) {
 	static_cast<Paddle*>(*paddleIt)->powerUp(type);
+}
+
+void Game::save(const string& filename) {
+	/*
+	ifstream in;
+	in.open(filename);
+
+	in >> numCodes;
+	numCodes++;
+
+	in.close();
+	*/
+
+	ofstream file;
+	file.open(filename);
+
+	//file << numCodes << endl;
+
+	//Bajar tantas veces como codigos haya
+	//for (int i = 0; i < numCodes; i++) { file << endl; }
+
+	cout << "Introduce codigo de partida: ";
+	cin >> code;
+	file << code << "		";
+
+	file << vidas << " " << puntuacion << " ";
+
+	for (auto it = objects.begin(); it != objects.end(); it++) {
+		static_cast<ArkanoidObject*>(*it)->saveToFile(file); 
+	}
+
+	file.close();
 }
 
 Game::~Game() {

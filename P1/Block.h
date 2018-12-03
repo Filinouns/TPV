@@ -12,6 +12,7 @@ public:
 	int getY() { return y; }
 	int getH() { return h; }
 	int getW() { return w; }
+	int getColor() { return color; }
 
 	virtual void render();
 

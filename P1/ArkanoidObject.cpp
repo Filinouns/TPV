@@ -11,7 +11,3 @@ ArkanoidObject::~ArkanoidObject() {}
 void ArkanoidObject::loadFromFile() {
 
 }
-
-void ArkanoidObject::saveToFile() {
-
-}

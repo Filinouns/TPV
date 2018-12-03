@@ -11,6 +11,8 @@ public:
 	BlockMap(SDL_Renderer* r, Texture* text);
 	virtual ~BlockMap();
 	virtual void render();
+	virtual void loadFromFile();
+	virtual void saveToFile(ofstream& f);
 
 	void load(const string& filename);
 	int getNumBlocks() { return numBlocks; }

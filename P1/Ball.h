@@ -11,6 +11,8 @@ public:
 
 	virtual void render();
 	virtual void update();
+	virtual void loadFromFile();
+	virtual void saveToFile(ofstream& f);
 	void respawn();
 
 private:

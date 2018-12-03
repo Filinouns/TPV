@@ -28,7 +28,6 @@ void BlockMap::load(const string& filename) {
 		map[i] = new Block*[col];
 	}
 
-	//(Javi) En mi ordenador peta aqui al terminar el ultimo nivel, debe hacer el load antes que win = true porque row es 0 :(
 	h = (WIN_HEIGHT / 2) / row;	
 	w = WIN_WIDTH / col - ((2*WALL_WIDTH) / col);
 
@@ -40,6 +39,21 @@ void BlockMap::load(const string& filename) {
 				numBlocks++;
 			}
 			else map[i][j] = nullptr;
+		}
+	}
+}
+
+void BlockMap::loadFromFile() {
+
+}
+
+void BlockMap::saveToFile(ofstream& f) {
+	f << row  << " " << col << " ";
+
+	for (int i = 0; i < row; i++) {
+		for (int j = 0; j < col; j++) {
+			if (map[i][j] == nullptr) f << "0" << " ";
+			else f << map[i][j]->getColor() << " ";
 		}
 	}
 }
