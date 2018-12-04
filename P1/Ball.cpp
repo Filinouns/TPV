@@ -65,6 +65,10 @@ void Ball::saveToFile(fstream& f) {
 	ArkanoidObject::saveToFile(f);
 }
 
-void Ball::loadFromFile() {
-
+void Ball::loadFromFile(ifstream& f) {
+	int vx, vy;
+	f >> vx >> vy;
+	vel = Vector2D(vx, vy);
+	velLimit = vy;
+	ArkanoidObject::loadFromFile(f);
 }

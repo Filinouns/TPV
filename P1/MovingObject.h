@@ -7,9 +7,7 @@ public:
 	MovingObject(SDL_Renderer* r, Texture* text);
 	virtual ~MovingObject();
 
-	virtual void loadFromFile();
-	virtual void saveToFile();
-
+	virtual void loadFromFile(ifstream& f);
 protected:
 	Vector2D vel;
 };

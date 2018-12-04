@@ -116,7 +116,3 @@ void Paddle::handleEvents(SDL_Event event) {
 			break;
 	}
 }
-
-void Paddle::loadFromFile() {
-
-}

@@ -18,4 +18,8 @@ void ArkanoidObject::saveToFile(fstream& f) {
 
 void ArkanoidObject::loadFromFile(ifstream& f) {
 	f >> destRect.x >> destRect.y;
+	x = destRect.x;
+	y = destRect.y;
+	pos.setX(x);
+	pos.setY(y);
 }

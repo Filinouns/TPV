@@ -10,7 +10,6 @@ public:
 
 	virtual void update();
 	virtual void handleEvents(SDL_Event event);
-	virtual void loadFromFile();
 
 	bool collides(const SDL_Rect& r);
 	bool collidesBall(const SDL_Rect& r, Vector2D& collVector); //Comprobacion de choque con la pelota

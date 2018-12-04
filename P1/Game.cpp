@@ -139,8 +139,8 @@ void Game::run() {
 			Sleep(FRAME_RATE);
 		}
 		else {
-			save(SAVEFILE);
-			exit = true;
+			save();
+			saveState = false;
 		}
 	}
 }
@@ -313,7 +313,6 @@ void Game::load() {
 
 	bool end = false;
 	int tempCode = 0;
-	int numLin;
 	cout << "Introduce codigo de partida: ";
 	cin >> tempCode;
 
@@ -331,24 +330,57 @@ void Game::load() {
 			}
 		}
 		else {
-			end = true;
-			cout << "Lo he encontrado pavo";
+			//cout << "Lo he encontrado pavo";
 			//Lectura
+			initObjectsFromFile(f);
+			end = true;
 		}
+	}
+
+	f.close();
+}
+
+void Game::initObjectsFromFile(ifstream& f) {
+	//Cargamos la vida y la puntuacion
+	f >> vidas >> puntuacion;
+
+	//Iniciamos los objetos
+	blockMap = new BlockMap(renderer, nTexturas[TBrick]);
+	objects.push_front(blockMap);
+	mapIt = objects.begin();
+	objects.push_back(new Ball(renderer, nTexturas[TBall], this));
+	ballIt = --(objects.end());
+	objects.push_back(new Paddle(renderer, nTexturas[TPaddle], this));
+	paddleIt = --(objects.end());
+	objects.push_back(new Wall(renderer, nTexturas[TSide], POS_WALL_L_ROOF, false));
+	objects.push_back(new Wall(renderer, nTexturas[TSide], POS_WALL_R, false));
+	objects.push_back(new Wall(renderer, nTexturas[TTopSide], POS_WALL_L_ROOF, true));
+	lastIt = --(objects.end());
+
+	//Cargamos los valores de los objetos del fichero
+	for (auto it = objects.begin(); it != objects.end(); it++) {
+		(*it)->loadFromFile(f);
+	}
+	//Fallan los objetos Wall
+	//
+	//
+
+	//Calculamos y añadimos los posibles rewards
+	numRewards = numLin - 7 - blockMap->numRow();
+	for (int i = 0; i < numRewards; i++) {
+		objects.push_back(new Reward(renderer, nTexturas[TReward], 0, 0, this));
+		auto it = --objects.end();
+		(*it)->loadFromFile(f);
 	}
 }
 
-void Game::initObjectsFromFile(const ifstream& f) {
-
-}
-
 //--------------------------Guardar---------------------------
-void Game::save(const string& filename) {
+void Game::save() {
 	fstream f;
-	f.open(filename, fstream::out | fstream::in | fstream::app);
+	f.open(SAVEFILE, fstream::out | fstream::in | fstream::app);
 
 	int nRow = static_cast<BlockMap*>(*mapIt)->numRow();
-	nRow += 2	;
+	nRow++;
 
 	for (auto it = objects.begin(); it != objects.end(); it++) {
 		nRow++;
@@ -363,8 +395,6 @@ void Game::save(const string& filename) {
 		(*it)->saveToFile(f); 
 		nRow++;
 	}
-
-	f << endl;
 
 	f.close();
 }

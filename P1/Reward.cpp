@@ -50,8 +50,9 @@ void Reward::action() {
 	}
 }
 
-void Reward::loadFromFile() {
-
+void Reward::loadFromFile(ifstream& f) {
+	f >> type;
+	ArkanoidObject::loadFromFile(f);
 }
 
 void Reward::saveToFile(fstream& f) {

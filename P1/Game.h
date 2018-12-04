@@ -70,7 +70,7 @@ public:
 	//Constructoras
 	void initTextures();
 	void initObjects();
-	void initObjectsFromFile(const ifstream& f);
+	void initObjectsFromFile(ifstream& f);
 	void initMap();
 
 	//Destructoras
@@ -88,7 +88,7 @@ public:
 	void nextLevel();
 	void setLevel(bool b) { nivel = b; }
 	//Guardar y cargar
-	void save(const string& filename);
+	void save();
 	void load();
 
 protected:
@@ -97,6 +97,7 @@ protected:
 	SDL_Rect scoreRect;
 
 	bool exit = false, win = false;
+	bool nivel = false, saveState = false;
 	int vidas = 3;
 	int level = 0;
 	int puntuacion = 0;
@@ -107,7 +108,13 @@ protected:
 private:
 	BlockMap* blockMap;
 	list<ArkanoidObject*>::iterator mapIt, paddleIt, ballIt, lastIt;
-	bool nivel = false, saveState = false;
+
+	//Variables para la carga
+	int numRewards = 0, numLin;
+	bool end = false;
+	int tempCode = 0;
+
+	//Atributos textura/fuente de la vida y el score
 	Texture* tScore;
 	SDL_Color red = { 255, 0, 0 }; //The color of the font
 	TTF_Font* font;

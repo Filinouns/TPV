@@ -12,7 +12,7 @@ public:
 	virtual void render();
 	virtual void update();
 	virtual void action();
-	virtual void loadFromFile();
+	virtual void loadFromFile(ifstream& f);
 	virtual void saveToFile(fstream& f);
 
 	void setIt(list<ArkanoidObject*>::iterator i) { it = i; }

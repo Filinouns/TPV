@@ -10,7 +10,7 @@ public:
 	virtual ~Ball();
 
 	virtual void update();
-	virtual void loadFromFile();
+	virtual void loadFromFile(ifstream& f);
 	virtual void saveToFile(fstream& f);
 	void respawn();
 
