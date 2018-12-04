@@ -17,7 +17,8 @@ public:
 private:
 	Game* game = nullptr;
 
+	int velLimit = 2;
 	bool resp = false;
 
-	Vector2D initVel = Vector2D(2, -2);
+	Vector2D initVel = Vector2D(velLimit, -velLimit);
 };

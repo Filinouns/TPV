@@ -84,8 +84,12 @@ void Paddle::powerUp(int type) {
 void Paddle::respawn() {
 	x = WIN_WIDTH / 2 - texture->getW() / 2;
 	y = WIN_HEIGHT - 100;
+	h = texture->getH();
+	w = texture->getW();
 	destRect.x = x;
 	destRect.y = y;
+	destRect.h = h;
+	destRect.w = w;
 }
 
 void Paddle::handleEvents(SDL_Event event) {

@@ -15,28 +15,30 @@ using uint = unsigned int;
 uint startTime = SDL_GetTicks();
 uint frameTime;
 
+//----------------------Constructora-------------------
 Game::Game() {
 	initSDL();
 	initTextures(); //Iniciar texturas
-	initObjects();
+	//initObjects();
 
 	scoreRect.x = (WIN_WIDTH / 2) + 50;
 	scoreRect.y = -5;
 	scoreRect.w = 300;
 	scoreRect.h = 50;
 
-	/*cout << "Introduce un '0' para cargar o un '1' para jugar una nueva partida." << endl;
+	cout << "Introduce un '0' para cargar una partida guardada." <<  endl << "Introduce un '1' para jugar una nueva partida." << endl;
 	int klkpa;
 	cin >> klkpa;
-	if (klkpa == 0) load(SAVEFILE);
+	if (klkpa == 0) load();
 	else if (klkpa == 1) initObjects();
 	else {
-		cout << "Parece que no sabes leer :)";
+		cout << "Parece que no sabes leer :)" << endl;
 		exit = true;
 		system("pause");
-	}*/
+	}
 }
 
+//--------------------------------------------Inicializacion de Objetos--------------------------------------------
 void Game::initSDL() {
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF); // Check Memory Leaks
 
@@ -99,6 +101,35 @@ void Game::initMap() {
 	mapIt = objects.begin();
 }
 
+void Game::createReward(const SDL_Rect &rect) {
+	int aux = rand() % REWARD_CHANCE;
+	//int aux = 0;
+	if (aux == 0) {
+		int r = rand() % 4;
+		switch (r) {
+		case 0:
+			objects.push_back(new RewardX1(renderer, nTexturas[TReward], rect.x, rect.y, this));
+			static_cast<RewardX1*>(objects.back())->setIt(--(objects.end()));
+			break;
+		case 1:
+			objects.push_back(new RewardX2(renderer, nTexturas[TReward], rect.x, rect.y, this));
+			static_cast<RewardX2*>(objects.back())->setIt(--(objects.end()));
+			break;
+		case 2:
+			objects.push_back(new RewardX3(renderer, nTexturas[TReward], rect.x, rect.y, this));
+			static_cast<RewardX3*>(objects.back())->setIt(--(objects.end()));
+			break;
+		case 3:
+			objects.push_back(new RewardX4(renderer, nTexturas[TReward], rect.x, rect.y, this));
+			static_cast<RewardX4*>(objects.back())->setIt(--(objects.end()));
+			break;
+		default:
+			break;
+		}
+	}
+}
+
+//---------------------------------------------Bucle Principal---------------------------------
 void Game::run() {
 	while (!exit && !win) {
 		if (!saveState) {
@@ -114,6 +145,7 @@ void Game::run() {
 	}
 }
 
+//------------------UPDATE-----------
 void Game::update() {
 	//Comprobacion de no mas bloques
 	if (static_cast<BlockMap*>(*mapIt)->getNumBlocks() == 0) nextLevel();
@@ -133,36 +165,10 @@ void Game::update() {
 	}
 }
 
-void Game::nextLevel() { //Siguiente nivel
-	nivel = false;
-	level++;
-
-	//Eliminamos el mapa que sino se queda basura, no se como hacerlo mejor jeje
-	delete *mapIt;
-	objects.pop_front();
-	initMap();
-
-	// Reespauneamos la bola y el paddle
-	static_cast<Ball*>(*ballIt)->respawn();
-	static_cast<Paddle*>(*paddleIt)->respawn();
-
-	// Eliminamos los premios sobrantes
-	auto it = ++lastIt;
-	while (it != objects.end()) {
-		auto next = it;
-		++next;
-		killObjects.push_back(*it);
-		objects.remove(*it);
-		it = next;
-	}
-
-	// Actualizamos el ultimo iterador de nuevo para que apunte al ultimo objeto del juego que no sea un reward
-	lastIt = --(objects.end());
-}
-
+//--------------------RENDER---------------
 void Game::render() const {
 	SDL_RenderClear(renderer); //Eliminamos lo que hay en pantalla
-	//Render de cada objeto
+							   //Render de cada objeto
 	for (auto it = objects.begin(); it != objects.end(); it++) {
 		(*it)->render();
 	}
@@ -177,6 +183,7 @@ void Game::render() const {
 	SDL_RenderPresent(renderer);
 }
 
+//-------------------------HANDLE_EVENTS-----------------------
 void Game::handleEvents() {
 	SDL_Event event;
 	while (SDL_PollEvent(&event) && !exit) {
@@ -188,14 +195,14 @@ void Game::handleEvents() {
 			case SDLK_ESCAPE: //Para salir con esc
 				exit = true;
 				break;
-			case SDLK_c:
+			case SDLK_c: //Pasar de nivel
 				nextLevel();
 				break;
-			case SDLK_p:
+			case SDLK_p: //Guardar partida
 				saveState = true;
 				break;
-			case SDLK_o:
-				load(SAVEFILE);
+			case SDLK_o: //Cargar partida (temporal)
+				load();
 				break;
 			default:
 				break;
@@ -209,12 +216,7 @@ void Game::handleEvents() {
 	}
 }
 
-void Game::pierdeVida() {
-	vidas--;
-	static_cast<Ball*>(*ballIt)->respawn();
-	if (vidas == 0) exit = true;
-}
-
+//--------------------------------------------------------------Colisiones-------------------------------------------------------
 bool Game::collidesBall(const SDL_Rect& rect, const Vector2D& vel, Vector2D& collVector) {
 	bool c = false;
 
@@ -253,7 +255,6 @@ bool Game::collidesBall(const SDL_Rect& rect, const Vector2D& vel, Vector2D& col
 			createReward(block->getRect());
 		}
 	}
-	//---------------
 
 	//Colisiones con paddle
 	if (static_cast<Paddle*>(*paddleIt)->collidesBall(rect, collVector)) c = true;
@@ -266,41 +267,49 @@ bool Game::collidesReward(const SDL_Rect &rect) {
 	return b;
 }
 
-void Game::createReward(const SDL_Rect &rect) {
-	int aux = rand() % REWARD_CHANCE;
-	//int aux = 0;
-	if (aux == 0) {
-		int r = rand() % 4;
-		switch (r) {
-		case 0:
-			objects.push_back(new RewardX1(renderer, nTexturas[TReward], rect.x, rect.y, this));
-			static_cast<RewardX1*>(objects.back())->setIt(--(objects.end()));
-			break;
-		case 1:
-			objects.push_back(new RewardX2(renderer, nTexturas[TReward], rect.x, rect.y, this));
-			static_cast<RewardX2*>(objects.back())->setIt(--(objects.end()));
-			break;
-		case 2:
-			objects.push_back(new RewardX3(renderer, nTexturas[TReward], rect.x, rect.y, this));
-			static_cast<RewardX3*>(objects.back())->setIt(--(objects.end()));
-			break;
-		case 3:
-			objects.push_back(new RewardX4(renderer, nTexturas[TReward], rect.x, rect.y, this));
-			static_cast<RewardX4*>(objects.back())->setIt(--(objects.end()));
-			break;
-		default:
-			break;
-		}
+//----------------------------------------------Diversos-----------------------------------------
+//Siguiente nivel
+void Game::nextLevel() {
+	nivel = false;
+	level++;
+
+	//Eliminamos el mapa que sino se queda basura, no se como hacerlo mejor jeje
+	delete *mapIt;
+	objects.pop_front();
+	initMap();
+
+	// Reespauneamos la bola y el paddle
+	static_cast<Ball*>(*ballIt)->respawn();
+	static_cast<Paddle*>(*paddleIt)->respawn();
+
+	// Eliminamos los premios sobrantes
+	auto it = ++lastIt;
+	while (it != objects.end()) {
+		auto next = it;
+		++next;
+		killObjects.push_back(*it);
+		objects.remove(*it);
+		it = next;
 	}
+
+	// Actualizamos el ultimo iterador de nuevo para que apunte al ultimo objeto del juego que no sea un reward
+	lastIt = --(objects.end());
+}
+
+void Game::pierdeVida() {
+	vidas--;
+	static_cast<Ball*>(*ballIt)->respawn();
+	if (vidas == 0) exit = true;
 }
 
 void Game::powerUp(int type) {
 	static_cast<Paddle*>(*paddleIt)->powerUp(type);
 }
 
-void Game::load(const string& filename) {
+//----------------------------Cargar--------------------------------
+void Game::load() {
 	ifstream f;
-	f.open(filename);
+	f.open(SAVEFILE);
 
 	bool end = false;
 	int tempCode = 0;
@@ -329,6 +338,11 @@ void Game::load(const string& filename) {
 	}
 }
 
+void Game::initObjectsFromFile(const ifstream& f) {
+
+}
+
+//--------------------------Guardar---------------------------
 void Game::save(const string& filename) {
 	fstream f;
 	f.open(filename, fstream::out | fstream::in | fstream::app);
@@ -355,6 +369,7 @@ void Game::save(const string& filename) {
 	f.close();
 }
 
+//---------------------------------------------Destructoras------------------------------------------
 Game::~Game() {
 	deleteTextures();	//Eliminar las texturas del array de texturas
 	deleteObjects();

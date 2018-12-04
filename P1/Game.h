@@ -67,36 +67,40 @@ public:
 	void update();
 	void render() const;
 	
+	//Constructoras
 	void initTextures();
 	void initObjects();
+	void initObjectsFromFile(const ifstream& f);
 	void initMap();
+
+	//Destructoras
 	void deleteTextures();
 	void deleteObjects();
+
+	//Colisiones
 	bool collidesBall(const SDL_Rect& rect, const Vector2D& vel, Vector2D& collVector);
 	bool collidesReward(const SDL_Rect& rect);
+	//Variados
 	void createReward(const SDL_Rect& rect);
 	void powerUp(int type);
-
 	void addLife() { vidas++; }
 	void pierdeVida();
 	void nextLevel();
 	void setLevel(bool b) { nivel = b; }
-
+	//Guardar y cargar
 	void save(const string& filename);
-	void load(const string& filename);
+	void load();
 
 protected:
 	SDL_Window* window = nullptr;
 	SDL_Renderer* renderer = nullptr;
 	SDL_Rect scoreRect;
 
-	//Aqui punteros a las clases de objetos
 	bool exit = false, win = false;
 	int vidas = 3;
 	int level = 0;
 	int puntuacion = 0;
 
-	//Intentar crear listas de objetos y texturas con iteradores para recorrerlas
 	Texture* nTexturas[NUM_TEXTURES];
 	list<ArkanoidObject*> objects, killObjects;
 

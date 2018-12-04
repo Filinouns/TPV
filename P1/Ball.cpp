@@ -45,10 +45,10 @@ void Ball::update() {
 			x = pos.getX();
 			y = pos.getY();
 			//Controlador de velocidad
-			if (vel.getX() > 2)			vel.setX(2);
-			else if (vel.getX() < -2)	vel.setX(-2);
-			if (vel.getY() > 2)			vel.setY(2);
-			else if (vel.getY() < -2)	vel.setY(-2);
+			if (vel.getX() > velLimit)			vel.setX(velLimit);
+			else if (vel.getX() < -velLimit)	vel.setX(-velLimit);
+			if (vel.getY() > velLimit)			vel.setY(velLimit);
+			else if (vel.getY() < -velLimit)	vel.setY(-velLimit);
 		} else resp = false;
 	} else {
 		pos = prevPos + vel;

@@ -43,7 +43,27 @@ void BlockMap::load(const string& filename) {
 	}
 }
 
-void BlockMap::loadFromFile() {
+void BlockMap::loadFromFile(ifstream& in) {
+	in >> row >> col;
+
+	map = new Block**[row];
+	for (int i = 0; i < row; i++) {
+		map[i] = new Block*[col];
+	}
+
+	h = (WIN_HEIGHT / 2) / row;
+	w = WIN_WIDTH / col - ((2 * WALL_WIDTH) / col);
+
+	for (int i = 0; i < row; i++) {
+		for (int j = 0; j < col; j++) {
+			in >> color;
+			if (color != 0) {
+				map[i][j] = new Block(renderer, texture, color, i, j, h, w);
+				numBlocks++;
+			}
+			else map[i][j] = nullptr;
+		}
+	}
 }
 
 void BlockMap::saveToFile(fstream& f) {

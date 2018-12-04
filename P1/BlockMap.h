@@ -11,7 +11,7 @@ public:
 	BlockMap(SDL_Renderer* r, Texture* text);
 	virtual ~BlockMap();
 	virtual void render();
-	virtual void loadFromFile();
+	virtual void loadFromFile(ifstream& in);
 	virtual void saveToFile(fstream& f);
 
 	void load(const string& filename);
