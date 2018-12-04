@@ -83,7 +83,7 @@ public:
 	void setLevel(bool b) { nivel = b; }
 
 	void save(const string& filename);
-	void load();
+	void load(const string& filename);
 
 protected:
 	SDL_Window* window = nullptr;

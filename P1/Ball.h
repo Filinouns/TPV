@@ -12,7 +12,7 @@ public:
 	virtual void render();
 	virtual void update();
 	virtual void loadFromFile();
-	virtual void saveToFile(ofstream& f);
+	virtual void saveToFile(fstream& f);
 	void respawn();
 
 private:

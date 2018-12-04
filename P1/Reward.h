@@ -12,6 +12,8 @@ public:
 	virtual void render();
 	virtual void update();
 	virtual void action();
+	virtual void loadFromFile();
+	virtual void saveToFile(fstream& f);
 
 	void setIt(list<ArkanoidObject*>::iterator i) { it = i; }
 	list<ArkanoidObject*>::iterator getIt() { return it; }

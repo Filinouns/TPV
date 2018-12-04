@@ -64,7 +64,7 @@ void Ball::update() {
 	destRect.y = y;
 }
 
-void Ball::saveToFile(ofstream& f) {
+void Ball::saveToFile(fstream& f) {
 	pos.setX(destRect.x);
 	pos.setY(destRect.y);
 

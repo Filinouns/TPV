@@ -121,9 +121,9 @@ void Paddle::loadFromFile() {
 
 }
 
-void Paddle::saveToFile(ofstream& f) {
+void Paddle::saveToFile(fstream& f) {
 	pos.setX(destRect.x);
 	pos.setY(destRect.y);
 
-	f << pos.getX();
+	f << pos.getX() << " ";
 }

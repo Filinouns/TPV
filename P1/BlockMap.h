@@ -12,7 +12,7 @@ public:
 	virtual ~BlockMap();
 	virtual void render();
 	virtual void loadFromFile();
-	virtual void saveToFile(ofstream& f);
+	virtual void saveToFile(fstream& f);
 
 	void load(const string& filename);
 	int getNumBlocks() { return numBlocks; }

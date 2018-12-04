@@ -49,3 +49,11 @@ void Reward::action() {
 		active = false;
 	}
 }
+
+void Reward::loadFromFile() {
+
+}
+
+void Reward::saveToFile(fstream& f) {
+	f << type << " " << x << " " << y << " ";
+}

@@ -7,7 +7,3 @@ ArkanoidObject::ArkanoidObject(SDL_Renderer* r, Texture* text) : GameObject() {
 }
 
 ArkanoidObject::~ArkanoidObject() {}
-
-void ArkanoidObject::loadFromFile() {
-
-}

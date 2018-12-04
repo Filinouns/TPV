@@ -44,10 +44,9 @@ void BlockMap::load(const string& filename) {
 }
 
 void BlockMap::loadFromFile() {
-
 }
 
-void BlockMap::saveToFile(ofstream& f) {
+void BlockMap::saveToFile(fstream& f) {
 	f << row  << " " << col << " ";
 
 	for (int i = 0; i < row; i++) {

@@ -2,6 +2,7 @@
 #include "SDL_image.h"
 #include "checkML.h"
 #include <iostream>
+#include <fstream>
 #include "Game.h"
 #include <Windows.h>
 #include <sstream>
@@ -19,6 +20,17 @@ Game::Game() {
 	initSDL();
 	initTextures(); //Iniciar texturas
 	initObjects();
+
+	/*cout << "Introduce un '0' para cargar o un '1' para jugar una nueva partida." << endl;
+	int klkpa;
+	cin >> klkpa;
+	if (klkpa == 0) load(SAVEFILE);
+	else if (klkpa == 1) initObjects();
+	else {
+		cout << "Parece que no sabes leer :)";
+		exit = true;
+		system("pause");
+	}*/
 }
 
 void Game::initSDL() {
@@ -289,36 +301,26 @@ void Game::powerUp(int type) {
 	static_cast<Paddle*>(*paddleIt)->powerUp(type);
 }
 
+void Game::load(const string& filename) {
+
+}
+
 void Game::save(const string& filename) {
-	/*
-	ifstream in;
-	in.open(filename);
-
-	in >> numCodes;
-	numCodes++;
-
-	in.close();
-	*/
-
-	ofstream file;
-	file.open(filename);
-
-	//file << numCodes << endl;
-
-	//Bajar tantas veces como codigos haya
-	//for (int i = 0; i < numCodes; i++) { file << endl; }
+	fstream f;
+	f.open(filename, fstream::out | fstream::in | fstream::app);
 
 	cout << "Introduce codigo de partida: ";
 	cin >> code;
-	file << code << "		";
-
-	file << vidas << " " << puntuacion << " ";
+	f << code << "		";
+	f << vidas << " " << puntuacion << " ";
 
 	for (auto it = objects.begin(); it != objects.end(); it++) {
-		static_cast<ArkanoidObject*>(*it)->saveToFile(file); 
+		static_cast<ArkanoidObject*>(*it)->saveToFile(f); 
 	}
 
-	file.close();
+	f << endl;
+
+	f.close();
 }
 
 Game::~Game() {
