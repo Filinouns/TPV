@@ -21,10 +21,6 @@ Ball::Ball(SDL_Renderer* r, Texture* text, Game* g) : MovingObject(r, text) {
 
 Ball::~Ball() {}
 
-void Ball::render() {
-	texture->renderFrame(destRect, 0, 0);
-}
-
 void Ball::respawn() {
 	resp = true;
 	pos = Vector2D(((WIN_HEIGHT / 3) * 2), (WIN_WIDTH / 2));
@@ -65,10 +61,8 @@ void Ball::update() {
 }
 
 void Ball::saveToFile(fstream& f) {
-	pos.setX(destRect.x);
-	pos.setY(destRect.y);
-
-	f << pos.getX() << " " << pos.getY() << " " << vel.getX() << " " << vel.getY() << " ";
+	f << vel.getX() << " " << vel.getY() << " ";
+	ArkanoidObject::saveToFile(f);
 }
 
 void Ball::loadFromFile() {

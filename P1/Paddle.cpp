@@ -20,10 +20,6 @@ Paddle::Paddle(SDL_Renderer* r, Texture* text, Game* g) : MovingObject(r, text) 
 
 Paddle::~Paddle() {}
 
-void Paddle::render() {
-	texture->renderFrame(destRect, 0, 0);
-}
-
 void Paddle::update() { //Revisar laterales
 	destRect.x += vel.getX();
 	x = destRect.x;
@@ -119,11 +115,4 @@ void Paddle::handleEvents(SDL_Event event) {
 
 void Paddle::loadFromFile() {
 
-}
-
-void Paddle::saveToFile(fstream& f) {
-	pos.setX(destRect.x);
-	pos.setY(destRect.y);
-
-	f << pos.getX() << " ";
 }

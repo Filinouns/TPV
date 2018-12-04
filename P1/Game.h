@@ -88,6 +88,7 @@ public:
 protected:
 	SDL_Window* window = nullptr;
 	SDL_Renderer* renderer = nullptr;
+	SDL_Rect scoreRect;
 
 	//Aqui punteros a las clases de objetos
 	bool exit = false, win = false;
@@ -104,7 +105,7 @@ private:
 	list<ArkanoidObject*>::iterator mapIt, paddleIt, ballIt, lastIt;
 	bool nivel = false, saveState = false;
 	Texture* tScore;
-	SDL_Color white = { 255, 255, 255 }; //The color of the font
+	SDL_Color red = { 255, 0, 0 }; //The color of the font
 	TTF_Font* font;
 
 	int numCodes = 0, code = 0;

@@ -9,10 +9,8 @@ public:
 	virtual ~Paddle();
 
 	virtual void update();
-	virtual void render();
 	virtual void handleEvents(SDL_Event event);
 	virtual void loadFromFile();
-	virtual void saveToFile(fstream& f);
 
 	bool collides(const SDL_Rect& r);
 	bool collidesBall(const SDL_Rect& r, Vector2D& collVector); //Comprobacion de choque con la pelota

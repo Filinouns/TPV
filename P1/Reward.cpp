@@ -55,5 +55,6 @@ void Reward::loadFromFile() {
 }
 
 void Reward::saveToFile(fstream& f) {
-	f << type << " " << x << " " << y << " ";
+	f << type << " ";
+	ArkanoidObject::saveToFile(f);
 }

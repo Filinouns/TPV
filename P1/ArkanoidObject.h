@@ -9,8 +9,11 @@ public:
 	ArkanoidObject(SDL_Renderer* r, Texture* text);
 	virtual ~ArkanoidObject();
 
-	virtual void loadFromFile() {};
-	virtual void saveToFile(fstream& f) {}
+	virtual void render();
+	virtual void update() {};
+	virtual void handleEvents() {};
+	virtual void loadFromFile(ifstream& f);
+	virtual void saveToFile(fstream& f);
 	virtual SDL_Rect getRect() { return destRect; }
 	bool getActive() { return active; }
 	void setActive(bool a) { active = a; }

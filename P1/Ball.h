@@ -9,7 +9,6 @@ public:
 	Ball(SDL_Renderer* r, Texture* text, Game* g);
 	virtual ~Ball();
 
-	virtual void render();
 	virtual void update();
 	virtual void loadFromFile();
 	virtual void saveToFile(fstream& f);

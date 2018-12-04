@@ -20,6 +20,8 @@ public:
 	Block* blockAt(const Vector2D& p);
 	void ballHitsBlock(Block* b);
 
+	int numRow() { return row; }
+
 protected:
 	Block*** map = nullptr;
 

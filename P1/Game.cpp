@@ -9,7 +9,6 @@
 #include "SDLError.h"
 #include "FileNotFoundError.h"
 
-
 using namespace std;
 
 using uint = unsigned int;
@@ -20,6 +19,11 @@ Game::Game() {
 	initSDL();
 	initTextures(); //Iniciar texturas
 	initObjects();
+
+	scoreRect.x = (WIN_WIDTH / 2) + 50;
+	scoreRect.y = -5;
+	scoreRect.w = 300;
+	scoreRect.h = 50;
 
 	/*cout << "Introduce un '0' para cargar o un '1' para jugar una nueva partida." << endl;
 	int klkpa;
@@ -67,14 +71,9 @@ void Game::initTextures() {
 			cout << "Textures could not be created! \nSDL_Error: " << SDL_GetError() << '\n';
 		}
 	}
-
 	tScore = new Texture(renderer);
 	font = TTF_OpenFont("../images/pixel.ttf", 20);
 	if (font == nullptr) throw SDLError(TTF_GetError());
-
-	//TTF_Font* Sans = TTF_OpenFont("Sans.ttf", 24);
-	//SDL_Surface* surf = TTF_RenderText_Solid(Sans, text.c_str(), color);   //Para textos
-	//SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surf);
 }
 
 void Game::initObjects() { //Aqui los objetos del juego 
@@ -125,7 +124,7 @@ void Game::update() {
 	while (it != objects.end()) {
 		auto next = it;
 		++next;
-		if (static_cast<ArkanoidObject*>(*it)->getActive()) static_cast<ArkanoidObject*>(*it)->update();
+		if ((*it)->getActive()) (*it)->update();
 		else {
 			killObjects.push_back(*it);
 			objects.remove(*it);
@@ -165,19 +164,13 @@ void Game::render() const {
 	SDL_RenderClear(renderer); //Eliminamos lo que hay en pantalla
 	//Render de cada objeto
 	for (auto it = objects.begin(); it != objects.end(); it++) {
-		static_cast<ArkanoidObject*>(*it)->render();
+		(*it)->render();
 	}
 
 	//Dibujado de la puntuacion
 	stringstream strm;
-	strm << "Score: " << puntuacion;
-	tScore->loadFont(renderer, font, strm.str().c_str(), white);
-
-	SDL_Rect scoreRect; 
-	scoreRect.x = (WIN_WIDTH / 2) - 50;  
-	scoreRect.y = -5; 
-	scoreRect.w = 100; 
-	scoreRect.h = 50; 
+	strm << "Score: " << puntuacion << "                " << "Vidas: " << vidas;
+	tScore->loadFont(renderer, font, strm.str().c_str(), red);
 
 	tScore->render(scoreRect);
 
@@ -272,6 +265,7 @@ bool Game::collidesReward(const SDL_Rect &rect) {
 
 void Game::createReward(const SDL_Rect &rect) {
 	int aux = rand() % REWARD_CHANCE;
+	//int aux = 0;
 	if (aux == 0) {
 		int r = rand() % 4;
 		switch (r) {
@@ -302,20 +296,40 @@ void Game::powerUp(int type) {
 }
 
 void Game::load(const string& filename) {
+	ifstream f;
+	f.open(filename);
 
+	int tempCode = 0;
+	cout << "Introduce codigo de partida: ";
+	cin >> tempCode;
+	while (tempCode != code || f.end) {
+		f >> code;
+		//Salto
+	}
+	if (tempCode == code) {
+		//Lectura
+	}
 }
 
 void Game::save(const string& filename) {
 	fstream f;
 	f.open(filename, fstream::out | fstream::in | fstream::app);
 
-	cout << "Introduce codigo de partida: ";
-	cin >> code;
-	f << code << "		";
-	f << vidas << " " << puntuacion << " ";
+	int nRow = static_cast<BlockMap*>(*mapIt)->numRow();
+	nRow++;
 
 	for (auto it = objects.begin(); it != objects.end(); it++) {
-		static_cast<ArkanoidObject*>(*it)->saveToFile(f); 
+		nRow++;
+	}
+
+	cout << "Introduce codigo de partida: ";
+	cin >> code;
+	f << code << " " << nRow << endl;
+	f << vidas << " " << puntuacion << endl;
+
+	for (auto it = objects.begin(); it != objects.end(); it++) {
+		(*it)->saveToFile(f); 
+		nRow++;
 	}
 
 	f << endl;

@@ -47,13 +47,14 @@ void BlockMap::loadFromFile() {
 }
 
 void BlockMap::saveToFile(fstream& f) {
-	f << row  << " " << col << " ";
+	f << row  << " " << col << endl;
 
 	for (int i = 0; i < row; i++) {
 		for (int j = 0; j < col; j++) {
 			if (map[i][j] == nullptr) f << "0" << " ";
 			else f << map[i][j]->getColor() << " ";
 		}
+		f << endl;
 	}
 }
 

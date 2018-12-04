@@ -19,7 +19,3 @@ Wall::Wall(SDL_Renderer * r, Texture* text, Vector2D position, bool roof) : Arka
 }
 
 Wall::~Wall() {} 
-
-void Wall::render() {
-	texture->renderFrame(destRect, 0, 0);
-}
