@@ -194,6 +194,9 @@ void Game::handleEvents() {
 			case SDLK_p:
 				saveState = true;
 				break;
+			case SDLK_o:
+				load(SAVEFILE);
+				break;
 			default:
 				break;
 			}
@@ -299,15 +302,30 @@ void Game::load(const string& filename) {
 	ifstream f;
 	f.open(filename);
 
+	bool end = false;
 	int tempCode = 0;
+	int numLin;
 	cout << "Introduce codigo de partida: ";
 	cin >> tempCode;
-	while (tempCode != code || f.end) {
+
+	while (!end) {
 		f >> code;
-		//Salto
-	}
-	if (tempCode == code) {
-		//Lectura
+		if (f.fail()) {
+			cout << "No existe esa partida." << endl;
+			system("pause");
+			end = true;
+		}
+		f >> numLin;
+		if (tempCode != code) {
+			for (int i = 0; i < numLin; i++) {
+				f.ignore(INT_MAX, '\n');
+			}
+		}
+		else {
+			end = true;
+			cout << "Lo he encontrado pavo";
+			//Lectura
+		}
 	}
 }
 
@@ -316,7 +334,7 @@ void Game::save(const string& filename) {
 	f.open(filename, fstream::out | fstream::in | fstream::app);
 
 	int nRow = static_cast<BlockMap*>(*mapIt)->numRow();
-	nRow++;
+	nRow += 2	;
 
 	for (auto it = objects.begin(); it != objects.end(); it++) {
 		nRow++;
