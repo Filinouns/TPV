@@ -1,0 +1,141 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="Game.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="Vector2D.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="ArkanoidObject.cpp">
+      <Filter>Archivos de origen\Objetos</Filter>
+    </ClCompile>
+    <ClCompile Include="Ball.cpp">
+      <Filter>Archivos de origen\Objetos</Filter>
+    </ClCompile>
+    <ClCompile Include="Block.cpp">
+      <Filter>Archivos de origen\Objetos</Filter>
+    </ClCompile>
+    <ClCompile Include="BlockMap.cpp">
+      <Filter>Archivos de origen\Objetos</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>Archivos de origen\Objetos</Filter>
+    </ClCompile>
+    <ClCompile Include="MovingObject.cpp">
+      <Filter>Archivos de origen\Objetos</Filter>
+    </ClCompile>
+    <ClCompile Include="Paddle.cpp">
+      <Filter>Archivos de origen\Objetos</Filter>
+    </ClCompile>
+    <ClCompile Include="Wall.cpp">
+      <Filter>Archivos de origen\Objetos</Filter>
+    </ClCompile>
+    <ClCompile Include="RewardX1.cpp">
+      <Filter>Archivos de origen\Objetos\Rewards</Filter>
+    </ClCompile>
+    <ClCompile Include="RewardX2.cpp">
+      <Filter>Archivos de origen\Objetos\Rewards</Filter>
+    </ClCompile>
+    <ClCompile Include="Reward.cpp">
+      <Filter>Archivos de origen\Objetos\Rewards</Filter>
+    </ClCompile>
+    <ClCompile Include="RewardX3.cpp">
+      <Filter>Archivos de origen\Objetos\Rewards</Filter>
+    </ClCompile>
+    <ClCompile Include="RewardX4.cpp">
+      <Filter>Archivos de origen\Objetos\Rewards</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Game.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector2D.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="ArkanoidError.h">
+      <Filter>Archivos de encabezado\Error</Filter>
+    </ClInclude>
+    <ClInclude Include="ArkanoidObject.h">
+      <Filter>Archivos de encabezado\Objetos</Filter>
+    </ClInclude>
+    <ClInclude Include="Ball.h">
+      <Filter>Archivos de encabezado\Objetos</Filter>
+    </ClInclude>
+    <ClInclude Include="Block.h">
+      <Filter>Archivos de encabezado\Objetos</Filter>
+    </ClInclude>
+    <ClInclude Include="BlockMap.h">
+      <Filter>Archivos de encabezado\Objetos</Filter>
+    </ClInclude>
+    <ClInclude Include="FileFormatError.h">
+      <Filter>Archivos de encabezado\Error</Filter>
+    </ClInclude>
+    <ClInclude Include="FileNotFoundError.h">
+      <Filter>Archivos de encabezado\Error</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>Archivos de encabezado\Objetos</Filter>
+    </ClInclude>
+    <ClInclude Include="MovingObject.h">
+      <Filter>Archivos de encabezado\Objetos</Filter>
+    </ClInclude>
+    <ClInclude Include="Paddle.h">
+      <Filter>Archivos de encabezado\Objetos</Filter>
+    </ClInclude>
+    <ClInclude Include="Reward.h">
+      <Filter>Archivos de encabezado\Objetos\Rewards</Filter>
+    </ClInclude>
+    <ClInclude Include="RewardX1.h">
+      <Filter>Archivos de encabezado\Objetos\Rewards</Filter>
+    </ClInclude>
+    <ClInclude Include="RewardX2.h">
+      <Filter>Archivos de encabezado\Objetos\Rewards</Filter>
+    </ClInclude>
+    <ClInclude Include="RewardX3.h">
+      <Filter>Archivos de encabezado\Objetos\Rewards</Filter>
+    </ClInclude>
+    <ClInclude Include="RewardX4.h">
+      <Filter>Archivos de encabezado\Objetos\Rewards</Filter>
+    </ClInclude>
+    <ClInclude Include="SDLError.h">
+      <Filter>Archivos de encabezado\Error</Filter>
+    </ClInclude>
+    <ClInclude Include="Wall.h">
+      <Filter>Archivos de encabezado\Objetos</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Archivos de encabezado">
+      <UniqueIdentifier>{c1096a24-986b-480b-8221-457beab504d3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de origen">
+      <UniqueIdentifier>{227b476d-d304-4428-b48e-1fdcc8afb98b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\Error">
+      <UniqueIdentifier>{c3f9518c-75b5-4e8d-8f84-1516e16b9a8a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\Objetos">
+      <UniqueIdentifier>{ff8e4415-f73a-468e-8556-1cd2b6b6a3b4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\Objetos\Rewards">
+      <UniqueIdentifier>{31d778f1-aab9-43aa-96a9-9ffcdecd6d8e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de origen\Objetos">
+      <UniqueIdentifier>{7c191f96-8b5b-4b38-8c99-7de12a62fcd5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de origen\Objetos\Rewards">
+      <UniqueIdentifier>{614e80d6-be96-4b6b-b210-7cb9b56419b6}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

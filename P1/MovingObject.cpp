@@ -5,4 +5,4 @@ MovingObject::MovingObject(SDL_Renderer* r, Texture* text) : ArkanoidObject(r, t
 
 MovingObject::~MovingObject() {}
 
-void MovingObject::loadFromFile(ifstream& f) {}
+void MovingObject::loadFromFile(ifstream& f) { ArkanoidObject::loadFromFile(f); }

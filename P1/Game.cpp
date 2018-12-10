@@ -376,6 +376,9 @@ void Game::initObjectsFromFile(ifstream& f) {
 
 //--------------------------Guardar---------------------------
 void Game::save() {
+
+	//Añadir comprobacion de codigo en caso de que ya exista una partida guardada con ese codigo.
+
 	fstream f;
 	f.open(SAVEFILE, fstream::out | fstream::in | fstream::app);
 
